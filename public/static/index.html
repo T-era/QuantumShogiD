@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WebSocket Test</title>
+	<style>
+		pre#timer {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body onLoad="connect()">
+	<p>The following box should show a running counter, updated by the server:</p>
+	<pre id="timer"></pre>
+	<button type="button" onclick="closeConnection()">Close connection</button>
+	<button type="button" onclick="connect()">Reconnect</button>
+	<button type="button" onclick="send()">Send</button>
+</body>
+<script type='text/javascript'>
+var socket
+
+function connect()
+{
+	setText("connecting...");
+	socket = new WebSocket(getBaseURL() + "/ws");
+	socket.onopen = function() {
+		setText("connected. waiting for timer...");
+	}
+	socket.onmessage = function(message) {
+		setText(message.data);
+	}
+	socket.onclose = function() {
+		setText("connection closed.");
+	}
+	socket.onerror = function() {
+		setText("Error!");
+	}
+}
+function send() {
+  socket.send("this is test!!" + new Date());
+}
+
+function closeConnection()
+{
+	socket.close();
+	setText("closed.");
+}
+
+function setText(text)
+{
+	document.getElementById("timer").innerHTML = text;
+}
+
+function getBaseURL()
+{
+	var href = window.location.href.substring(7); // strip "http://"
+	var idx = href.indexOf("/");
+	return "ws://" + href.substring(0, idx);
+}
+</script>
+</html>
