@@ -1,0 +1,14 @@
+{
+	"name": "qss",
+	"authors": [
+		"y-terada"
+	],
+	"dependencies": {
+		"vibe-d": "~>0.7.30"
+	},
+	"sourcePaths": ["./source"],
+	"description": "Quantum-shogi server on vibe.d server.",
+	"copyright": "Copyright © 2018, y-terada",
+	"license": "proprietary",
+	"targetPath": "dest/"
+}
