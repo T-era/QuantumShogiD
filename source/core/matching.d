@@ -1,7 +1,9 @@
-module storage.on_memory;
+module core.matching;
 
 import std.concurrency;
 import std.uuid;
+
+import core.gs;
 
 enum Keyword { Entry, Retire }
 immutable struct Entry {
@@ -11,10 +13,11 @@ immutable struct Entry {
 const struct Retire {
   string uid;
 }
-const struct Pair {
+struct Pair {
   string gid;
+  bool sente;
 }
-class WaitingEntry {
+class Matcher {
   private Tid[string] byType;
 
   void entry(string type, string uid) {
@@ -24,7 +27,9 @@ class WaitingEntry {
     send(byType[type], uid, thisTid);
   }
   void retire(string type, string uid) {
-    send(byType[type], uid);
+    if (type in byType) {
+      send(byType[type], uid);
+    }
   }
   void stopAll() {
     foreach (Tid tid; byType) {
@@ -33,7 +38,10 @@ class WaitingEntry {
   }
 }
 void run(string type) {
+  import std.stdio; import std.format;
+  writeln(format("Matching: %s %s", thisTid, ownerTid));
   Tid[string] waiting;
+  Tid[] gServerList;
   for (bool running = true; running;) {
     receive(
       (string uid, Tid tid) {
@@ -47,15 +55,23 @@ void run(string type) {
           waiting.remove(uid1);
           waiting.remove(uid2);
           string gid = randomUUID().toString;
-          send(tid1, Pair(gid));
-          send(tid2, Pair(gid));
+          Tid gsTid = spawn(&gServer, type, tid1, tid2);
+          gServerList ~= gsTid;
+
+          send(tid1, gsTid, Pair(gid, true), tid2);
+          send(tid2, gsTid, Pair(gid, false), tid1);
         }
       },
       (string uid) {
         // retire
         waiting.remove(uid);
       },
-      (bool r) { running = r; }
+      (bool r) {
+        running = r;
+        foreach (tid; gServerList) {
+          send(tid, false);
+        }
+      }
     );
   }
 }

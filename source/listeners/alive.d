@@ -4,6 +4,6 @@ import vibe.vibe;
 import std.stdio;
 
 void alive(HTTPServerRequest req, HTTPServerResponse res) {
-  writeln("aliving");
+  logInfo("aliving");
   res.writeBody("OK");
 }

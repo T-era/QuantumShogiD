@@ -3,11 +3,9 @@ import vibe.vibe;
 import std.stdio;
 import std.format;
 
+import core.matching;
 import listeners.alive;
-import listeners.wrapper;
-import listeners.init_listener;
-import storage.on_memory;
-import indigoprint;
+import listeners.qss;
 
 const PORT = 8080;
 
@@ -19,32 +17,13 @@ void main() {
 	router.get("/", &alive);
 	router.get("/static/*", serveStaticFiles("./public/"));
 
-	auto initRouter = new IndigoPrint(router, "/init");
-	auto waiting = new WaitingEntry();
+	auto waiting = new Matcher();
 	scope(exit) waiting.stopAll();
-	initRouter.post("/register", jsonWraps(&registerUser));
-	initRouter.post("/matching", jsonWraps(initMatching(waiting)));
-
-
-	router.get("/ws", handleWebSockets(&handleWebSocketConnection));
+	router.get("/qss", handleWebSockets(qssListener(waiting)));
 
 	listenHTTP(settings, router);
 
 	logInfo(format("Please open http://127.0.0.1:%d/ in your browser.", PORT));
 	runApplication();
-}
-
-void handleWebSocketConnection(scope WebSocket socket) {
-	int counter = 0;
-	writeln("Got new web socket connection.");
-	for (;socket.connected; sleep(1.seconds)) {
-		writeln(format("Sending '%s'.", counter ++));
-		socket.send(counter.to!string);
-
-		if (socket.waitForData(0.seconds)) {
-			writeln(socket.receiveText());
-			counter += 10;
-		}
-	}
-	writeln("Client disconnected.");
+	logInfo("Shutting down...");
 }

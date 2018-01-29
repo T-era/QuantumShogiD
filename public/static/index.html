@@ -2,56 +2,47 @@
 <html>
 <head>
 	<title>WebSocket Test</title>
+	<script type='text/javascript' src='js/listeners/init.js' /></script>
 	<style>
 		pre#timer {
 			border: 1px solid black;
 		}
 	</style>
 </head>
-<body onLoad="connect()">
-	<p>The following box should show a running counter, updated by the server:</p>
-	<pre id="timer"></pre>
-	<button type="button" onclick="closeConnection()">Close connection</button>
-	<button type="button" onclick="connect()">Reconnect</button>
-	<button type="button" onclick="send()">Send</button>
+<body>
+	<div style="border: solid 1px #aaa;">
+		<p>Initialization:</p>
+		<input type='text' id='input_name' />
+		<button type="button" onclick="entry()">Entry</button>
+		<button type="button" onclick="retire()">Retire</button>
+	</div>
+	<div style="border: solid 1px #aaa;">
+		<p>:</p>
+		<input type='text' id='input_name' />
+		<button type="button" onclick="show()">Show</button>
+	</div>
 </body>
 <script type='text/javascript'>
-var socket
+var obj = initWs(getBaseURL());
 
-function connect()
-{
-	setText("connecting...");
-	socket = new WebSocket(getBaseURL() + "/ws");
-	socket.onopen = function() {
-		setText("connected. waiting for timer...");
-	}
-	socket.onmessage = function(message) {
-		setText(message.data);
-	}
-	socket.onclose = function() {
-		setText("connection closed.");
-	}
-	socket.onerror = function() {
-		setText("Error!");
-	}
+function entry() {
+	obj.socket.send(JSON.stringify({
+			class: 'entry',
+			type: '1',
+			name: document.getElementById('input_name').value
+		}));
 }
-function send() {
-  socket.send("this is test!!" + new Date());
+function retire() {
+	obj.socket.send(JSON.stringify({
+			class: 'retire'
+		}));
 }
-
-function closeConnection()
-{
-	socket.close();
-	setText("closed.");
+function show() {
+	obj.socket.send(JSON.stringify({
+		class: 'show'
+	}));
 }
-
-function setText(text)
-{
-	document.getElementById("timer").innerHTML = text;
-}
-
-function getBaseURL()
-{
+function getBaseURL() {
 	var href = window.location.href.substring(7); // strip "http://"
 	var idx = href.indexOf("/");
 	return "ws://" + href.substring(0, idx);
