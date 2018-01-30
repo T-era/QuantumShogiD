@@ -11,7 +11,9 @@ function initWs(baseUrl) {
 	};
   socket.onmessage = handleError(function(msgJson) {
     var gid = msgJson['gid'];
-    console.log(msgJson, gid)
+    thisSide = msgJson['side'];
+
+    console.log(msgJson, thisSide, gid)
 
     goonQs(gid, socket);
   });
@@ -25,7 +27,14 @@ function initWs(baseUrl) {
 function goonQs(gid, socket) {
   console.log("started");
   socket.onmessage = handleError(function(msgJson) {
-    console.log(msgJson);
+    var cls = msgJson['class'];
+    if (cls === 'result') {
+      alert(msgJson);
+    } else if (cls === 'error') {
+      alert(msgJson['message']);
+    } else {
+      console.log(msgJson, gid)
+    }
   });
   socket.send(JSON.stringify({
     gid: gid,

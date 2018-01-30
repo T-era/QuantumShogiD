@@ -1,5 +1,6 @@
 module qs.server.server;
 
+import core.time;
 import std.array;
 import std.algorithm;
 import std.math;
@@ -25,6 +26,7 @@ interface ServerInterface {
 	Quantum getInHand(bool side, int at);
 	void aHandPut(bool side, Quantum q, Pos to);
 	bool aHandStep(bool side, Pos from, Pos to, bool delegate() listenReface);
+	Remains getRemains();
 }
 class Server : ServerInterface {
 	Timer gameTimer;
@@ -134,6 +136,7 @@ class Server : ServerInterface {
 
 	bool aHandStep(bool side, Pos from, Pos to, bool delegate() listenReface) {
 		Quantum q = this.get(from);
+		if (q is null) throw new Exception("No piece exists");
 		auto action = q.move.prepare(to);
 		if (this.inTern != side) throw new Exception("Not your turn");
 		if (q.side != side) throw new Exception("Not your piece");
@@ -201,6 +204,24 @@ class Server : ServerInterface {
 			if (this.get(new Pos(x, y))) return true;
 		}
 		return false;
+	}
+
+	Remains getRemains() {
+		auto remains = this.gameTimer.showRemains();
+		if (remains.winner == Side.None) {
+			if (remains.timeT.remain < 0.msecs) {
+				foreach (cb; gOverCallback) {
+					cb(false);
+				}
+				remains.winner = Side.False;
+			} else if (remains.timeF.remain < 0.msecs) {
+				foreach (cb; gOverCallback) {
+					cb(true);
+				}
+				remains.winner = Side.True;
+			}
+		}
+		return remains;
 	}
 }
 

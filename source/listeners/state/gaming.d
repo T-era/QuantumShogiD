@@ -8,7 +8,8 @@ import vibe.vibe : WebSocket, logInfo, Json, parseJsonString, msecs, seconds;
 
 import core.gs;
 import listeners.qss;
-import listeners.state.converter.board;
+import listeners.state.converter.showresp;
+import listeners.state.converter.step_io;
 
 struct GResp {
   LoopStatus status;
@@ -30,13 +31,21 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
         "class": Json("your_turn")
       ]).to!string);
     },
+    (ErrorResp e) {
+      socket.send(Json([
+        "class": Json("error"),
+        "message": Json(e.message)
+      ]).to!string);
+    },
     (ShowResp sr) {
       logInfo("Show response");
 
-      socket.send(Json([
-        "sideOn": Json(sr.sideOn),
-        "board": fromBoard(sr.board)
-      ]).to!string);
+      socket.send(sr.fromShowResp().to!string);
+    },
+    (HandStepResp hsr) {
+      logInfo("HandStep response");
+
+      socket.send(hsr.fromHandStepResp().to!string);
     }
     );
 
@@ -52,6 +61,10 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
       case "show":
         logInfo(format("Show request, %s %s", gTid, thisTid));
         send(gTid, thisTid, ShowReq());
+        break;
+      case "step":
+        logInfo(format("Step request %s", request));
+        send(gTid, thisTid, toHandStepReq(request));
         break;
       default:
         throw new Exception(format("Unknown class: %s", request));

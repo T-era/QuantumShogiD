@@ -28,7 +28,7 @@ R onWsGoing(R, T...)(R function(scope WebSocket socket, T args) f, void delegate
   } catch(Exception ex) {
     logError("Error", ex);
     socket.send(Json([
-      "error": Json(ex.to!string)
+      "error": Json(ex.msg)
     ]).to!string);
     throw ex;
   }

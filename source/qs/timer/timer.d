@@ -8,25 +8,14 @@ enum Side {
 	None, True, False
 }
 
-class RemainsEach {
+struct RemainsEach {
 	bool notime;
 	Duration remain;
-
-	this(bool notime, Duration remain) {
-		this.notime = notime;
-		this.remain = remain;
-	}
 }
-class Remains {
+struct Remains {
 	Side winner;
 	RemainsEach timeT;
 	RemainsEach timeF;
-
-	this(Side winner, RemainsEach timeT, RemainsEach timeF) {
-		this.winner = winner;
-		this.timeT = timeT;
-		this.timeF = timeF;
-	}
 }
 
 interface Timer {
@@ -93,9 +82,9 @@ private class SideTimer {
 
 	RemainsEach showRemains() {
 		Duration currentMax = this.noRest ? this.minTime : this.rest;
-		Duration d = this.isWork ? (currentMax - this._duration()) : 0.msecs;
+		Duration d = this.isWork ? (currentMax - this._duration()) : currentMax;
 
-		return new RemainsEach(this.noRest, d);
+		return RemainsEach(this.noRest, d);
 	}
 }
 
@@ -155,7 +144,7 @@ private class TimerImpl : Timer {
 	}
 
 	Remains showRemains() {
-		return new Remains(
+		return Remains(
 			this.winner,
 			this.timerT.showRemains(),
 			this.timerF.showRemains());

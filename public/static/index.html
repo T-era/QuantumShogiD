@@ -17,13 +17,20 @@
 		<button type="button" onclick="retire()">Retire</button>
 	</div>
 	<div style="border: solid 1px #aaa;">
-		<p>:</p>
-		<input type='text' id='input_name' />
 		<button type="button" onclick="show()">Show</button>
+	</div>
+	<div style="border: solid 1px #aaa;">
+		<input type='text' id='x1' />
+		<input type='text' id='y1' />
+		<hr>
+		<input type='text' id='x2' />
+		<input type='text' id='y2' />
+		<button type="button" onclick="step()">Step</button>
 	</div>
 </body>
 <script type='text/javascript'>
 var obj = initWs(getBaseURL());
+var thisSide = null;
 
 function entry() {
 	obj.socket.send(JSON.stringify({
@@ -40,6 +47,27 @@ function retire() {
 function show() {
 	obj.socket.send(JSON.stringify({
 		class: 'show'
+	}));
+}
+function step() {
+	function idVal(id) {
+		return document.getElementById(id).value;
+	}
+	var x1 = Number(idVal('x1'));
+	var y1 = Number(idVal('y1'));
+	var x2 = Number(idVal('x2'));
+	var y2 = Number(idVal('y2'));
+	obj.socket.send(JSON.stringify({
+		class: 'step',
+		side: thisSide,
+		from: {
+			x: x1,
+			y: y1
+		},
+		to: {
+			x: x2,
+			y: y2
+		}
 	}));
 }
 function getBaseURL() {
