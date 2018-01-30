@@ -10,6 +10,7 @@ import core.gs;
 import listeners.qss;
 import listeners.state.converter.showresp;
 import listeners.state.converter.step_io;
+import listeners.state.converter.reface_io;
 
 struct GResp {
   LoopStatus status;
@@ -46,8 +47,12 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
       logInfo("HandStep response");
 
       socket.send(hsr.fromHandStepResp().to!string);
-    }
-    );
+    },
+    (RefaceCallback rc) {
+      logInfo("Reface callback");
+
+      socket.send(rc.fromRefaceCallback().to!string);
+    });
 
   if (finished) {
     import std.stdio;
@@ -65,6 +70,10 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
       case "step":
         logInfo(format("Step request %s", request));
         send(gTid, thisTid, toHandStepReq(request));
+        break;
+      case "reface":
+        logInfo(format("Reface response %s", request));
+        send(gTid, toRefaceCallbackResp(request));
         break;
       default:
         throw new Exception(format("Unknown class: %s", request));

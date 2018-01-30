@@ -51,10 +51,10 @@ void gServer(string type, Tid tid1, Tid tid2) {
 struct ErrorResp {
   string message;
 }
-void delegate(Tid, T) asFunc(R, T)(ServerInterface server, R function(ServerInterface, T) f) {
+void delegate(Tid, T) asFunc(R, T)(ServerInterface server, R function(Tid, ServerInterface, T) f) {
   return (Tid from, T args) {
     try {
-      R resp = f(server, args);
+      R resp = f(from, server, args);
       send(from, resp);
     } catch (Exception ex) {
       send(from, ErrorResp(ex.msg));

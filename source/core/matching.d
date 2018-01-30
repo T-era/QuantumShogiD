@@ -38,8 +38,6 @@ class Matcher {
   }
 }
 void run(string type) {
-  import std.stdio; import std.format;
-  writeln(format("Matching: %s %s", thisTid, ownerTid));
   Tid[string] waiting;
   Tid[] gServerList;
   for (bool running = true; running;) {

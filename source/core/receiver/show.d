@@ -1,11 +1,13 @@
 module core.receiver.show;
 
+import std.concurrency;
+
 import qs.server.server;
 import qs.timer.timer;
 import qs.common.pos;
 import qs.rule.quantum.quantum;
 
-alias string[9][9][9] Board;
+alias string[9][9][9] Board;  // TODO Add Face
 alias string[40][9] InHand;
 
 struct ShowReq {}
@@ -17,7 +19,7 @@ struct ShowResp {
   Remains remains;
 }
 
-ShowResp show(ServerInterface server, ShowReq req) {
+ShowResp show(Tid from, ServerInterface server, ShowReq req) {
   ShowResp resp;
   resp.sideOn = server.getInTern();
   server.show((Pos p, Quantum q) {

@@ -28,7 +28,13 @@ function goonQs(gid, socket) {
   console.log("started");
   socket.onmessage = handleError(function(msgJson) {
     var cls = msgJson['class'];
-    if (cls === 'result') {
+    if (cls === 'reface') {
+      var answer = confirm('Reface ??');
+      socket.send(JSON.stringify({
+        class: 'reface',
+        answer: answer
+      }));
+    } else if (cls === 'result') {
       alert(msgJson);
     } else if (cls === 'error') {
       alert(msgJson['message']);

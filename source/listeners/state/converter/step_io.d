@@ -12,8 +12,7 @@ HandStepReq toHandStepReq(Json json) {
       json["from"]["y"].to!int),
     Position(
       json["to"]["x"].to!int,
-      json["to"]["y"].to!int),
-    json["reface"].to!bool);
+      json["to"]["y"].to!int));
 }
 
 Json fromHandStepResp(HandStepResp hsr) {
