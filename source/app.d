@@ -14,12 +14,12 @@ void main() {
 	settings.port = PORT;
 
 	auto router = new URLRouter;
-	router.get("/", &alive);
-	router.get("/static/*", serveStaticFiles("./public/"));
 
 	auto waiting = new Matcher();
 	scope(exit) waiting.stopAll();
 	router.get("/qss", handleWebSockets(qssListener(waiting)));
+	router.get("/", &alive);
+	router.get("/*", serveStaticFiles("./public/"));
 
 	listenHTTP(settings, router);
 

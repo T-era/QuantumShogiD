@@ -1,0 +1,6 @@
+label:after {
+  content: ":";
+}
+label {
+  margin-right: 10px;
+}

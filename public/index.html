@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>QS</title>
+	<link rel='stylesheet' type='text/css' href='js/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css' />
+	<link rel='stylesheet' type='text/css' href='css/menu.css' />
+	<link rel='stylesheet' type='text/css' href='css/label.css' />
+	<link rel='stylesheet' type='text/css' href='css/status.css' />
+	<link rel='stylesheet' type='text/css' href='css/board.css' />
+	<script type='text/javascript' src='js/lib/jquery-3.3.1.min.js'></script>
+	<script type='text/javascript' src='js/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js'></script>
+	<script type='text/javascript' src='js/main.js'></script>
+	<script type='text/javascript' src='js/status.js'></script>
+	<script type='text/javascript' src='js/api.js'></script>
+	<script type='text/javascript' src='js/board.js'></script>
+	<script type='text/javascript' src='js/control.js'></script>
+	<script type='text/javascript'>
+$(function() {
+	main.init();
+	mystatus.init();
+	api.initWs();
+	board.init();
+	console.log("help!");
+});
+	</script>
+</head>
+<body>
+	<div id='menu_bar'>
+		<ul id='menu'>
+			<li><div>QS</div>
+				<ul>
+					<li><div id='mi_start'>Start</div></li>
+					<li><div id='mi_disconnect'>Disconnect</div></li>
+				</ul>
+			</li>
+			<li><div>View</div>
+				<ul>
+					<li><div id='mi_debugview'>Debug view</div></li>
+					<li><div id='mi_simpleview'>Simple view</div></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div id='status_show'>S</div>
+	<div id='init_dialog'>
+		<label for='input_name'>Name</label><input type='text' id='input_name' />
+		<select id='select_type'>
+			<option value='1hour/1min'>Standard</option>
+		</select>
+	</div>
+	<div id='main'>
+		<div id='inHandR'></div>
+		<div id='board'>
+		</div>
+		<div id='inHandMy'></div>
+	</div>
+</body>
+</html>

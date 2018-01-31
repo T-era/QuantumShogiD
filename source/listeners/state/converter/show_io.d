@@ -12,6 +12,7 @@ import listeners.state.converter.show_remains;
 
 Json fromShowResp(ShowResp sr) {
   return Json([
+    "class": Json("show"),
     "sideOn": Json(sr.sideOn),
     "board": fromBoard(sr.board),
     "tInHand": fromInHand(sr.tInHand),
