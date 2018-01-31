@@ -11,6 +11,7 @@ import listeners.qss;
 import listeners.state.converter.showresp;
 import listeners.state.converter.step_io;
 import listeners.state.converter.reface_io;
+import listeners.state.converter.put_io;
 
 struct GResp {
   LoopStatus status;
@@ -52,6 +53,11 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
       logInfo("Reface callback");
 
       socket.send(rc.fromRefaceCallback().to!string);
+    },
+    (HandPutResp hpr) {
+      logInfo("HandPut response");
+
+      socket.send(hpr.fromHandPutResp().to!string);
     });
 
   if (finished) {
@@ -74,6 +80,10 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
       case "reface":
         logInfo(format("Reface response %s", request));
         send(gTid, toRefaceCallbackResp(request));
+        break;
+      case "put":
+        logInfo(format("Put request %s", request));
+        send(gTid, thisTid, toHandPutReq(request));
         break;
       default:
         throw new Exception(format("Unknown class: %s", request));

@@ -8,7 +8,7 @@ import qs.common.pos;
 import qs.rule.quantum.quantum;
 
 alias string[9][9][9] Board;  // TODO Add Face
-alias string[40][9] InHand;
+alias string[9][40] InHand;
 
 struct ShowReq {}
 struct ShowResp {
@@ -32,14 +32,16 @@ ShowResp show(Tid from, ServerInterface server, ShowReq req) {
   int i = 0;
   server.showInHand(true, (Quantum q) {
     foreach (z, pt; q.possibility) {
-      resp.tInHand[i++][z] = pt.toString();
+      resp.tInHand[i][z] = pt.toString();
     }
+    i++;
   });
   i = 0;
   server.showInHand(false, (Quantum q) {
     foreach (z, pt; q.possibility) {
-      resp.fInHand[i++][z] = pt.toString();
+      resp.fInHand[i][z] = pt.toString();
     }
+    i++;
   });
   resp.remains = server.getRemains();
 

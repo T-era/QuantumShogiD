@@ -7,6 +7,7 @@ import std.array;
 
 public import core.receiver.show;
 public import core.receiver.hand_step;
+public import core.receiver.hand_put;
 import qs.common.pos;
 import qs.rule.quantum.quantum;
 import qs.timer.timer;
@@ -38,6 +39,7 @@ void gServer(string type, Tid tid1, Tid tid2) {
 
   void delegate(Tid, ShowReq) showF = asFunc!(ShowResp, ShowReq)(server, &show);
   void delegate(Tid, HandStepReq) handStepF = asFunc!(HandStepResp, HandStepReq)(server, &handStep);
+  void delegate(Tid, HandPutReq) handPutF = asFunc!(HandPutResp, HandPutReq)(server, &handPut);
   for (bool running = true; running; ) {
     writeln("gs on running");
     receive(
@@ -45,7 +47,8 @@ void gServer(string type, Tid tid1, Tid tid2) {
         running = b;
       },
       showF,
-      handStepF);
+      handStepF,
+      handPutF);
   }
 }
 struct ErrorResp {

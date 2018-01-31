@@ -27,6 +27,13 @@
 		<input type='text' id='y2' />
 		<button type="button" onclick="step()">Step</button>
 	</div>
+	<div style="border: solid 1px #aaa;">
+		<label for='putFrom'><input type='text' id='putFrom' />
+		<hr>
+		<input type='text' id='putX' />
+		<input type='text' id='putY' />
+		<button type="button" onclick="put()">Put</button>
+	</div>
 </body>
 <script type='text/javascript'>
 var obj = initWs(getBaseURL());
@@ -70,6 +77,26 @@ function step() {
 		}
 	}));
 }
+
+function put() {
+	function idVal(id) {
+		return document.getElementById(id).value;
+	}
+	var index = Number(idVal('putFrom'));
+	var x = Number(idVal('putX'));
+	var y = Number(idVal('putY'));
+	console.log(index, x, y);
+	obj.socket.send(JSON.stringify({
+		class: 'put',
+		side: thisSide,
+		indexInHand: index,
+		to: {
+			x: x,
+			y: y
+		}
+	}));
+}
+
 function getBaseURL() {
 	var href = window.location.href.substring(7); // strip "http://"
 	var idx = href.indexOf("/");

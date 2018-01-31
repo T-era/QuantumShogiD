@@ -106,7 +106,7 @@ class Server : ServerInterface {
 
 	Quantum getInHand(bool side, int at) {
 		Quantum[] list = side ? this.inHandT : this.inHandF;
-		if (at < 0 || at > list.length) {
+		if (at < 0 || at >= list.length) {
 			return null;
 		}
 		return list[at];
