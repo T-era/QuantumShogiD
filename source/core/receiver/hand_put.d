@@ -5,8 +5,7 @@ import std.format;
 
 public import core.receiver.common;
 import core.gs;
-import qs.server.server;
-import qs.rule.quantum.quantum;
+import qs.server;
 
 struct HandPutReq {
   bool side;

@@ -4,7 +4,7 @@ import std.concurrency;
 
 public import core.receiver.common;
 import core.gs;
-import qs.server.server;
+import qs.server;
 
 struct HandStepReq {
   bool side;

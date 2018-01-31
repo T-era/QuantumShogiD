@@ -11,6 +11,7 @@ struct WaitingResp {
   LoopStatus status;
   Tid gsTid;
 }
+
 WaitingResp waiting(scope WebSocket socket, Matcher waitingSrv, string type, string uid) {
   bool received = false;
 

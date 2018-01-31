@@ -1,3 +1,4 @@
+/// QS用のWebSocketリスナ
 module listeners.qss;
 
 import core.thread;
@@ -26,7 +27,7 @@ R onWsGoing(R, T...)(R function(scope WebSocket socket, T args) f, void delegate
     }
     return resp;
   } catch(Exception ex) {
-    logError("Error", ex);
+    logError("Error %s", ex);
     socket.send(Json([
       "error": Json(ex.msg)
     ]).to!string);

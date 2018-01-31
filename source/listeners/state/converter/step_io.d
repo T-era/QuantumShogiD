@@ -16,8 +16,6 @@ HandStepReq toHandStepReq(Json json) {
 }
 
 Json fromHandStepResp(HandStepResp hsr) {
-  import std.stdio;
-  writeln(hsr);
   return Json([
     "finished": Json(hsr.finished)
   ]);

@@ -1,6 +1,6 @@
 module qs.rule.quantum.quantum;
 
-import qs.common.pos;
+import qs.pos;
 import qs.rule.piece_type;
 import qs.rule.actions.action;
 

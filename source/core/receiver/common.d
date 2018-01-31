@@ -1,6 +1,6 @@
 module core.receiver.common;
 
-import qs.common.pos;
+import qs.server;
 
 struct Position {
   int x;
@@ -18,6 +18,7 @@ struct Position {
     return Position(p._x, p._y);
   }
 }
+
 Pos toPos(Position p) {
   return new Pos(p.x, p.y);
 }

@@ -1,8 +1,8 @@
-module listeners.state.converter.remains;
+module listeners.state.converter.show_remains;
 
 import vibe.vibe;
 
-import qs.timer.timer;
+import qs.server;
 
 Json fromRemains(Remains remains) {
   Json ret = Json.emptyArray;

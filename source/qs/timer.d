@@ -1,4 +1,4 @@
-module qs.timer.timer;
+module qs.timer;
 
 import std.datetime;
 

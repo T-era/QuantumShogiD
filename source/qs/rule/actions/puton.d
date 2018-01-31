@@ -2,7 +2,7 @@ module qs.rule.actions.puton;
 
 import std.algorithm;
 
-import qs.common.pos;
+import qs.pos;
 import qs.rule.actions.action;
 import qs.rule.quantum.quantum;
 import qs.rule.piece_type;

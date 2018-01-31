@@ -1,3 +1,4 @@
+/// コアスレッド: マッチング
 module core.matching;
 
 import std.concurrency;

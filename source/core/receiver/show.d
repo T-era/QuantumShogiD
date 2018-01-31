@@ -2,13 +2,14 @@ module core.receiver.show;
 
 import std.concurrency;
 
-import qs.server.server;
-import qs.timer.timer;
-import qs.common.pos;
-import qs.rule.quantum.quantum;
+import qs.server;
 
-alias string[9][9][9] Board;  // TODO Add Face
-alias string[9][40] InHand;
+struct PieceResp {
+  string[9] possibility;
+  int face;
+}
+alias PieceResp[9][9] Board;
+alias PieceResp[40] InHand;
 
 struct ShowReq {}
 struct ShowResp {
@@ -18,30 +19,28 @@ struct ShowResp {
   InHand fInHand;
   Remains remains;
 }
-
+PieceResp fromQuantum(Quantum q) {
+  string[9] poss;
+  foreach (z, pt; q.possibility) {
+    poss[z] = pt.toString();
+  }
+  return PieceResp(poss, q.face);
+}
 ShowResp show(Tid from, ServerInterface server, ShowReq req) {
   ShowResp resp;
   resp.sideOn = server.getInTern();
   server.show((Pos p, Quantum q) {
     if (q !is null) {
-      foreach (z, pt; q.possibility) {
-        resp.board[p._y][p._x][z] = pt.toString();
-      }
+      resp.board[p._y][p._x] = fromQuantum(q);
     }
   });
   int i = 0;
   server.showInHand(true, (Quantum q) {
-    foreach (z, pt; q.possibility) {
-      resp.tInHand[i][z] = pt.toString();
-    }
-    i++;
+    resp.tInHand[i++] = fromQuantum(q);
   });
   i = 0;
   server.showInHand(false, (Quantum q) {
-    foreach (z, pt; q.possibility) {
-      resp.fInHand[i][z] = pt.toString();
-    }
-    i++;
+    resp.fInHand[i++] = fromQuantum(q);
   });
   resp.remains = server.getRemains();
 

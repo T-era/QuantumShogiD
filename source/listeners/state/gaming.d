@@ -4,11 +4,11 @@ import std.algorithm;
 import std.array;
 import std.concurrency;
 import std.format;
-import vibe.vibe : WebSocket, logInfo, Json, parseJsonString, msecs, seconds;
+import vibe.vibe : WebSocket, logInfo, logError, Json, parseJsonString, msecs, seconds;
 
 import core.gs;
 import listeners.qss;
-import listeners.state.converter.showresp;
+import listeners.state.converter.showr_io;
 import listeners.state.converter.step_io;
 import listeners.state.converter.reface_io;
 import listeners.state.converter.put_io;
@@ -34,6 +34,7 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
       ]).to!string);
     },
     (ErrorResp e) {
+      logError("Error %s", e);
       socket.send(Json([
         "class": Json("error"),
         "message": Json(e.message)
@@ -61,8 +62,7 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
     });
 
   if (finished) {
-    import std.stdio;
-    writeln("Finished");
+    logInfo("Finished:", gTid);
     return GResp(LoopStatus.Success);
   }
 

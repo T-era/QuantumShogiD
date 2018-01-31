@@ -1,16 +1,16 @@
-module qs.server.server;
+module qs.server;
 
 import core.time;
 import std.array;
 import std.algorithm;
 import std.math;
 
-import qs.common.pos;
-import qs.rule.piece_type;
+public import qs.pos;
+public import qs.rule.piece_type;
 import qs.rule.quantum.decide;
 import qs.rule.quantum.origin;
-import qs.rule.quantum.quantum;
-import qs.timer.timer;
+public import qs.rule.quantum.quantum;
+public import qs.timer;
 
 alias void delegate(Pos pos, Quantum q) FieldShow;
 alias void delegate(bool sideInTern) TurnChangeCallback;

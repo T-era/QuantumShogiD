@@ -1,3 +1,4 @@
+/// 死活監視用のリスナ
 module listeners.alive;
 
 import vibe.vibe;

@@ -1,4 +1,4 @@
-module qs.common.pos;
+module qs.pos;
 
 class Pos {
 	int _x;

@@ -4,7 +4,7 @@ import qs.rule.init_layout;
 import qs.rule.piece_type;
 import qs.rule.quantum.decide;
 import qs.rule.quantum.quantum;
-import qs.common.pos;
+import qs.pos;
 
 alias void delegate(int x, int y, Quantum q) InitCallback;
 

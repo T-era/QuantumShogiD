@@ -91,7 +91,7 @@ unittest {
 }
 
 unittest {
-	import qs.common.pos;
+	import qs.pos;
 	import qs.rule.piece_type;
 	import qs.rule.quantum.origin;
 	import qs.rule.quantum.quantum;

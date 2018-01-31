@@ -42,7 +42,7 @@ var thisSide = null;
 function entry() {
 	obj.socket.send(JSON.stringify({
 			class: 'entry',
-			type: '1',
+			type: '1hour/1min',
 			name: document.getElementById('input_name').value
 		}));
 }

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WebSocket Test</title>
+	<style>
+		pre#timer {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+
+</body>
+<script type='text/javascript'>
+var tObj;
+var fObj;
+function initWs(baseUrl) {
+  var ret = {};
+  var socket = new WebSocket(baseUrl + "/qss");
+  ret.socket = socket;
+  socket.onclose = function() {
+		console.log("Connection closed.");
+	};
+	socket.onerror = function() {
+		console.log("Error!");
+	};
+  socket.onopen = function() {
+    console.log('Ready.')
+  };
+
+  return ret;
+}
+
+function goonQs(gid) {
+  console.log("started");
+	setEvent(tObj.socket);
+	setEvent(fObj.socket);
+
+	var dur = 1000;
+	andThen(dur,
+		function() { step(tObj, true, 7, 6, 7, 2); },
+		function() { step(fObj, false, 7, 1, 7, 2); },
+		function() { put(tObj, true,0, 5, 5); },
+		function() { step(fObj, false, 2, 2, 5, 5); },
+		function() { show(tObj); });
+
+	function setEvent(socket) {
+		socket.onmessage = handleError(function(msgJson) {
+			var cls = msgJson['class'];
+			if (cls === 'reface') {
+				var answer = confirm('Reface ??');
+				socket.send(JSON.stringify({
+					class: 'reface',
+					answer: answer
+				}));
+			} else if (cls === 'result') {
+				alert(msgJson);
+			} else if (cls === 'error') {
+				alert(msgJson['message']);
+			} else {
+				console.log(msgJson, gid)
+			}
+		});
+	}
+}
+
+function andThen(dur/* , list of function */) {
+	function _andThen() {
+		if (arguments.length == 0) return;
+		var argNext = [].slice.call(arguments, 1);
+		var f = arguments[0];
+		setTimeout(function() {
+			f();
+			_andThen.apply(null, argNext);
+		}, dur);
+	}
+	_andThen.apply(null, [].slice.call(arguments, 1));
+}
+
+function handleError(f) {
+  return function(message) {
+    var msgJson = JSON.parse(message.data);
+    if (msgJson['error']) {
+      alert(msgJson['error']);
+    } else {
+      return f(msgJson);
+    }
+  }
+}
+
+(function testAll() {
+	var obj1 = initWs(getBaseURL());
+	var obj2 = initWs(getBaseURL());
+	obj1.socket.onmessage = handleError(function(msgJson) {
+		var gid = msgJson['gid'];
+		var obj1Side = msgJson['side'];
+		if (obj1Side) {
+			tObj = obj1;
+			fObj = obj2;
+		} else {
+			tObj = obj2;
+			fObj = obj1;
+		}
+
+    console.log(msgJson, obj1Side, gid)
+
+    goonQs(gid);
+  });
+
+	obj1.socket.onopen = function() {
+		obj1.socket.send(JSON.stringify({
+				class: 'entry',
+				type: '1hour/1min',
+				name: 'obj1'
+			}));
+	}
+	obj2.socket.onopen = function() {
+		obj2.socket.send(JSON.stringify({
+				class: 'entry',
+				type: '1hour/1min',
+				name: 'obj2'
+			}));
+	}
+})();
+
+function show(obj) {
+	obj.socket.send(JSON.stringify({
+		class: 'show'
+	}));
+}
+function step(obj, thisSide, x1, y1, x2, y2) {
+	obj.socket.send(JSON.stringify({
+		class: 'step',
+		side: thisSide,
+		from: {
+			x: x1,
+			y: y1
+		},
+		to: {
+			x: x2,
+			y: y2
+		}
+	}));
+}
+
+function put(obj, thisSide, index, x, y) {
+	console.log(index, x, y);
+	obj.socket.send(JSON.stringify({
+		class: 'put',
+		side: thisSide,
+		indexInHand: index,
+		to: {
+			x: x,
+			y: y
+		}
+	}));
+}
+
+function getBaseURL() {
+	var href = window.location.href.substring(7); // strip "http://"
+	var idx = href.indexOf("/");
+	return "ws://" + href.substring(0, idx);
+}
+</script>
+</html>
