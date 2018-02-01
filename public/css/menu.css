@@ -1,13 +1,13 @@
 #menu>li {
-  float: left;
-  padding: 0 10pt 0 0;
+	float: left;
+	padding: 0 10pt 0 0;
 }
 #menu ~ * {
-  clear: left;
+	clear: left;
 }
 #menu_bar {
-  width: 100%;
-  height: 22pt;
-  background: #eee;
-  border: 1px solid #888;
+	width: 100%;
+	height: 22pt;
+	background: #eee;
+	border: 1px solid #888;
 }

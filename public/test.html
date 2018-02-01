@@ -15,24 +15,24 @@
 var tObj;
 var fObj;
 function initWs(baseUrl) {
-  var ret = {};
-  var socket = new WebSocket(baseUrl + "/qss");
-  ret.socket = socket;
-  socket.onclose = function() {
+	var ret = {};
+	var socket = new WebSocket(baseUrl + "/qss");
+	ret.socket = socket;
+	socket.onclose = function() {
 		console.log("Connection closed.");
 	};
 	socket.onerror = function() {
 		console.log("Error!");
 	};
-  socket.onopen = function() {
-    console.log('Ready.')
-  };
+	socket.onopen = function() {
+		console.log('Ready.')
+	};
 
-  return ret;
+	return ret;
 }
 
 function goonQs(gid) {
-  console.log("started");
+	console.log("started");
 	setEvent(tObj.socket);
 	setEvent(fObj.socket);
 
@@ -78,14 +78,14 @@ function andThen(dur/* , list of function */) {
 }
 
 function handleError(f) {
-  return function(message) {
-    var msgJson = JSON.parse(message.data);
-    if (msgJson['error']) {
-      alert(msgJson['error']);
-    } else {
-      return f(msgJson);
-    }
-  }
+	return function(message) {
+		var msgJson = JSON.parse(message.data);
+		if (msgJson['error']) {
+			alert(msgJson['error']);
+		} else {
+			return f(msgJson);
+		}
+	}
 }
 
 (function testAll() {
@@ -102,10 +102,10 @@ function handleError(f) {
 			fObj = obj1;
 		}
 
-    console.log(msgJson, obj1Side, gid)
+		console.log(msgJson, obj1Side, gid)
 
-    goonQs(gid);
-  });
+		goonQs(gid);
+	});
 
 	obj1.socket.onopen = function() {
 		obj1.socket.send(JSON.stringify({

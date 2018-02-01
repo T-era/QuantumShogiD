@@ -61,15 +61,15 @@ bool containsAll(T)(T[] mom, T[] children) {
 T[][] fullCombination(T)(T[] seed) {
 	T[] combination(size_t bitFlag) {
 		T[] part = [];
-		for (auto rank = 0; rank < seed.length; rank ++) {
+		foreach (rank, item; seed) {
 			if ((bitFlag >> rank) % 2 != 0) {
-				part ~= seed[rank];
+				part ~= item;
 			}
 		}
 		return part;
 	}
 	T[][] ret = [];
-	for (auto i = 1; i < (1 << seed.length); i ++) {
+	foreach (i; 1..(1 << seed.length)) {
 		ret ~= combination(i);
 	}
 

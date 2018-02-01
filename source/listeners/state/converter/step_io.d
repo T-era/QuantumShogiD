@@ -5,18 +5,18 @@ import vibe.vibe;
 import core.gs;
 
 HandStepReq toHandStepReq(Json json) {
-  return HandStepReq(
-    json["side"].to!bool,
-    Position(
-      json["from"]["x"].to!int,
-      json["from"]["y"].to!int),
-    Position(
-      json["to"]["x"].to!int,
-      json["to"]["y"].to!int));
+	return HandStepReq(
+		json["side"].to!bool,
+		Position(
+			json["from"]["x"].to!int,
+			json["from"]["y"].to!int),
+		Position(
+			json["to"]["x"].to!int,
+			json["to"]["y"].to!int));
 }
 
 Json fromHandStepResp(HandStepResp hsr) {
-  return Json([
-    "finished": Json(hsr.finished)
-  ]);
+	return Json([
+		"finished": Json(hsr.finished)
+	]);
 }

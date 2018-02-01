@@ -1147,7 +1147,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		// getElementById is not reliable as a find shortcut
 		delete Expr.find["ID"];
 
-		Expr.filter["ID"] =  function( id ) {
+		Expr.filter["ID"] =	function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
 				var node = typeof elem.getAttributeNode !== "undefined" &&
@@ -1451,7 +1451,7 @@ Sizzle.matchesSelector = function( elem, expr ) {
 	if ( support.matchesSelector && documentIsHTML &&
 		!compilerCache[ expr + " " ] &&
 		( !rbuggyMatches || !rbuggyMatches.test( expr ) ) &&
-		( !rbuggyQSA     || !rbuggyQSA.test( expr ) ) ) {
+		( !rbuggyQSA		 || !rbuggyQSA.test( expr ) ) ) {
 
 		try {
 			var ret = matches.call( elem, expr );
@@ -1994,7 +1994,7 @@ Expr = Sizzle.selectors = {
 		"empty": function( elem ) {
 			// http://www.w3.org/TR/selectors/#empty-pseudo
 			// :empty is negated by element (1) or content nodes (text: 3; cdata: 4; entity ref: 5),
-			//   but not by others (comment: 8; processing instruction: 7; etc.)
+			//	 but not by others (comment: 8; processing instruction: 7; etc.)
 			// nodeType < 6 works because attributes (2) do not appear as children
 			for ( elem = elem.firstChild; elem; elem = elem.nextSibling ) {
 				if ( elem.nodeType < 6 ) {
@@ -2567,9 +2567,9 @@ compile = Sizzle.compile = function( selector, match /* Internal Use Only */ ) {
 
 /**
  * A low-level selection function that works with Sizzle's compiled
- *  selector functions
+ *	selector functions
  * @param {String|Function} selector A selector or a pre-compiled
- *  selector function built with Sizzle.compile
+ *	selector function built with Sizzle.compile
  * @param {Element} context
  * @param {Array} [results]
  * @param {Array} [seed] A set of elements to match against
@@ -4462,7 +4462,7 @@ function createSafeFragment( document ) {
 		input = document.createElement( "input" );
 
 	// Setup
-	div.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
+	div.innerHTML = "	<link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
 
 	// IE strips leading whitespace when .innerHTML is used
 	support.leadingWhitespace = div.firstChild.nodeType === 3;
@@ -5379,8 +5379,8 @@ jQuery.event = {
 					( doc && doc.scrollLeft || body && body.scrollLeft || 0 ) -
 					( doc && doc.clientLeft || body && body.clientLeft || 0 );
 				event.pageY = original.clientY +
-					( doc && doc.scrollTop  || body && body.scrollTop  || 0 ) -
-					( doc && doc.clientTop  || body && body.clientTop  || 0 );
+					( doc && doc.scrollTop	|| body && body.scrollTop	|| 0 ) -
+					( doc && doc.clientTop	|| body && body.clientTop	|| 0 );
 			}
 
 			// Add relatedTarget, if necessary
@@ -5822,7 +5822,7 @@ jQuery.fn.extend( {
 		var handleObj, type;
 		if ( types && types.preventDefault && types.handleObj ) {
 
-			// ( event )  dispatched jQuery.Event
+			// ( event )	dispatched jQuery.Event
 			handleObj = types.handleObj;
 			jQuery( types.delegateTarget ).off(
 				handleObj.namespace ?
@@ -6348,7 +6348,7 @@ jQuery.fn.extend( {
 
 			// See if we can take a shortcut and just use innerHTML
 			if ( typeof value === "string" && !rnoInnerhtml.test( value ) &&
-				( support.htmlSerialize || !rnoshimcache.test( value )  ) &&
+				( support.htmlSerialize || !rnoshimcache.test( value )	) &&
 				( support.leadingWhitespace || !rleadingWhitespace.test( value ) ) &&
 				!wrapMap[ ( rtagName.exec( value ) || [ "", "" ] )[ 1 ].toLowerCase() ] ) {
 
@@ -8133,7 +8133,7 @@ jQuery.fn.delay = function( time, type ) {
 	// Setup
 	div = document.createElement( "div" );
 	div.setAttribute( "className", "t" );
-	div.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
+	div.innerHTML = "	<link/><table></table><a href='/a'>a</a><input type='checkbox'/>";
 	a = div.getElementsByTagName( "a" )[ 0 ];
 
 	// Support: Windows Web Apps (WWA)
@@ -9087,8 +9087,8 @@ var
 	/* Prefilters
 	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
 	 * 2) These are called:
-	 *    - BEFORE asking for a transport
-	 *    - AFTER param serialization (s.data is a string if s.processData is true)
+	 *		- BEFORE asking for a transport
+	 *		- AFTER param serialization (s.data is a string if s.processData is true)
 	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
 	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
@@ -10770,7 +10770,7 @@ jQuery.fn.extend( {
 		}
 		win = getWindow( doc );
 		return {
-			top: box.top  + ( win.pageYOffset || docElem.scrollTop )  - ( docElem.clientTop  || 0 ),
+			top: box.top	+ ( win.pageYOffset || docElem.scrollTop )	- ( docElem.clientTop	|| 0 ),
 			left: box.left + ( win.pageXOffset || docElem.scrollLeft ) - ( docElem.clientLeft || 0 )
 		};
 	},
@@ -10802,7 +10802,7 @@ jQuery.fn.extend( {
 			}
 
 			// Add offsetParent borders
-			parentOffset.top  += jQuery.css( offsetParent[ 0 ], "borderTopWidth", true );
+			parentOffset.top	+= jQuery.css( offsetParent[ 0 ], "borderTopWidth", true );
 			parentOffset.left += jQuery.css( offsetParent[ 0 ], "borderLeftWidth", true );
 		}
 
@@ -10810,7 +10810,7 @@ jQuery.fn.extend( {
 		// note: when an element has margin: auto the offsetLeft and marginLeft
 		// are the same in Safari causing offset.left to incorrectly be 0
 		return {
-			top:  offset.top  - parentOffset.top - jQuery.css( elem, "marginTop", true ),
+			top:	offset.top	- parentOffset.top - jQuery.css( elem, "marginTop", true ),
 			left: offset.left - parentOffset.left - jQuery.css( elem, "marginLeft", true )
 		};
 	},

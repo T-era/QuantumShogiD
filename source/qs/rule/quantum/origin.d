@@ -9,47 +9,47 @@ import qs.pos;
 alias void delegate(int x, int y, Quantum q) InitCallback;
 
 class Origin {
-    bool _side;
-    Quantum[] pieces;
+		bool _side;
+		Quantum[] pieces;
 
-    this(bool side, InitCallback initCallback) {
-      this._side = side;
+		this(bool side, InitCallback initCallback) {
+			this._side = side;
 
-      Quantum[] temp = [];
-      foreach(int dy, bool[] line; Layout) {
-        foreach(int x, bool is_; line) {
-          if (is_) {
-            int y;
-            if (side) {
-              y = 9 - 1 - dy;
-            } else {
-              y = dy;
-            }
-            auto q = new Quantum(side, &this.Decide, PieceType.AllPiece, new Pos(x, y));
-            temp ~= q;
-            initCallback(x, y, q);
-          }
-        }
-      }
-      this.pieces = temp;
-    }
+			Quantum[] temp = [];
+			foreach(int dy, bool[] line; Layout) {
+				foreach(int x, bool is_; line) {
+					if (is_) {
+						int y;
+						if (side) {
+							y = 9 - 1 - dy;
+						} else {
+							y = dy;
+						}
+						auto q = new Quantum(side, &this.Decide, PieceType.AllPiece, new Pos(x, y));
+						temp ~= q;
+						initCallback(x, y, q);
+					}
+				}
+			}
+			this.pieces = temp;
+		}
 
-    void Decide(Quantum q, PieceType[] dec) {
-      //bool ret;
-      auto unfixedAll = PieceType.AllPiece;
-      auto pd = new QDecider!(Quantum, PieceType)(
-        this.pieces,
-        unfixedAll,
-        (Quantum q) { return q.possibility; },
-        (Quantum q, PieceType[] p) {
-          q.possibility = p;
-        },
-        (PieceType p) { return p.countInSide; });
+		void Decide(Quantum q, PieceType[] dec) {
+			//bool ret;
+			auto unfixedAll = PieceType.AllPiece;
+			auto pd = new QDecider!(Quantum, PieceType)(
+				this.pieces,
+				unfixedAll,
+				(Quantum q) { return q.possibility; },
+				(Quantum q, PieceType[] p) {
+					q.possibility = p;
+				},
+				(PieceType p) { return p.countInSide; });
 
-      pd.updateFilled();
-      //return ret;
-    }
-  }
+			pd.updateFilled();
+			//return ret;
+		}
+	}
 
 
 unittest {

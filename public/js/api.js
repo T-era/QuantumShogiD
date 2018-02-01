@@ -45,24 +45,54 @@ var api = new (function() {
 			class: 'show'
 		}));
 	}
+	this.step = function(thisSide, x1, y1, x2, y2) {
+		socket.send(JSON.stringify({
+			class: 'step',
+			side: thisSide,
+			from: {
+				x: x1,
+				y: y1
+			},
+			to: {
+				x: x2,
+				y: y2
+			}
+		}));
+	};
+	this.put = function(thisSide, index, x, y) {
+		socket.send(JSON.stringify({
+			class: 'put',
+			side: thisSide,
+			indexInHand: index,
+			to: {
+				x: x,
+				y: y
+			}
+		}));
+	};
+
 
 	function goonQs(gid, socket, thisSide) {
 		console.log("started");
 		socket.onmessage = handleError(function(msgJson) {
 			var cls = msgJson['class'];
-			if (cls === 'reface') {
+			if (cls === 'you_turn') {
+				api.show();
+			} else if (cls === 'reface') {
 				var answer = confirm('Reface ??');
 				socket.send(JSON.stringify({
 					class: 'reface',
 					answer: answer
 				}));
 			} else if (cls === 'result') {
-				alert(msgJson);
+				alert(msgJson.win ? 'You win' : 'You Lose');
 			} else if (cls === 'error') {
 				alert(msgJson['message']);
 			} else if (cls === 'show'){
 				control.showCallback(msgJson);
-				console.log(msgJson, gid)
+			} else {
+				api.show();
+				console.log(msgJson);
 			}
 		});
 	}

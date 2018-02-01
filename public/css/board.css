@@ -15,6 +15,7 @@ html, body {
 	bottom: 20%;
 
 	background: #aab;
+	overflow-y: auto;
 }
 #board {
 	position: absolute;
@@ -33,20 +34,30 @@ html, body {
 	bottom: 0%;
 
 	background: #aba;
+	overflow-y: auto;
 }
 .cell {
+	position: absolute;
+}
+#board>.cell {
 	position: absolute;
 	width: 11%;
 	height: 11%;
 	border: 1px solid #aaa;
 	background: #bbb;
 }
-.cell.selected {
+#inHandMy>.cell,#inHandR>.cell {
+	position: absolute;
+	width: 33%;
+	height: 14%;
+	background: #ddd;
+}
+#board>.cell.selected,#inHandMy>.cell.selected,#inHandR>.cell.selected {
 	background: #faa;
 }
-.cell.selected:hover {
+#board>.cell.selected:hover,#inHandMy>.cell.selected:hover,#inHandR>.cell.selected:hover {
 	background: #fdd;
 }
-.cell:hover {
+#board>.cell:hover,#inHandMy>.cell:hover,#inHandR>.cell:hover {
 	background: #eee;
 }

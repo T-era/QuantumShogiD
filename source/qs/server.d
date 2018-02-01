@@ -53,8 +53,8 @@ class Server : ServerInterface {
 		});
 		this.inTern = true;
 
-		for (int y = 0; y < 9; y ++) {
-			for (int x = 0; x < 9; x ++) {
+		foreach (y; 0..9) {
+			foreach (x; 0..9) {
 				this.field[y][x] = null;
 			}
 		}
@@ -197,7 +197,7 @@ class Server : ServerInterface {
 		if ((ady <= 1 && adx <= 1)
 			|| (adx == 1 && ady == 2)) return false;
 		int big = max(adx, ady);
-		for (int i = 1; i < big; i ++) {
+		foreach (i; 1..big) {
 			int x = from._x + (dx / big * i);
 			int y = from._y + (dy / big * i);
 
@@ -357,7 +357,7 @@ unittest {
 			_moveTo(true, pos, -1, 1, false);
 			_moveTo(false, pRiv, -1, 0, false);
 		}
-		for(int i = 0; i < 3; i ++) {
+		foreach(i; 0..3) {
 			foreach (pos; allPos) {
 				_moveTo(true, pos, 0, -1, false);
 				if (i % 2 == 0) {

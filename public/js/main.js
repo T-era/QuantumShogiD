@@ -1,6 +1,6 @@
 var main = new (function() {
 	var initDialog;
-  var menuStart;
+	var menuStart;
 	this.init = function() {
 		$('#menu').menu({
 			position: {
@@ -14,7 +14,7 @@ var main = new (function() {
 			modal: true,
 			buttons: {
 				'Entry': function() {
-					api.entry(
+					control.entry(
 						$('#input_name').val(),
 						$('#select_type').val());
 					menuDisconnect.removeClass('ui-state-disabled');
@@ -27,7 +27,7 @@ var main = new (function() {
 			initDialog.dialog('open');
 		});
 		menuDisconnect = $('#mi_disconnect').click(function() {
-			api.closeConnection();
+			control.closeConnection();
 
 			menuDisconnect.addClass('ui-state-disabled');
 			menuStart.removeClass('ui-state-disabled');

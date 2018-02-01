@@ -7,39 +7,39 @@ import core.gs;
 import qs.server;
 
 struct HandStepReq {
-  bool side;
-  Position from;
-  Position to;
+	bool side;
+	Position from;
+	Position to;
 }
 struct HandStepResp {
-  bool finished;
+	bool finished;
 }
 struct RefaceCallback {}
 struct RefaceCallbackResp {
-  bool answer;
+	bool answer;
 }
 
 HandStepResp handStep(Tid from, ServerInterface server, HandStepReq req) {
-  return HandStepResp(server.aHandStep(
-    req.side,
-    req.from.toPos(),
-    req.to.toPos(),
-    () { return listenReface(from); }));
+	return HandStepResp(server.aHandStep(
+		req.side,
+		req.from.toPos(),
+		req.to.toPos(),
+		() { return listenReface(from); }));
 }
 
 bool listenReface(Tid from) {
-  send(from, RefaceCallback());
+	send(from, RefaceCallback());
 
-  bool result;
-  for (bool listening = true; listening;) {
-    receive(
-      (RefaceCallbackResp resp) {
-        listening = false;
-        result = resp.answer;
-      },
-      (Variant v) {
-        send(from, ErrorResp("Listening REFACE!"));
-      });
-  }
-  return result;
+	bool result;
+	for (bool listening = true; listening;) {
+		receive(
+			(RefaceCallbackResp resp) {
+				listening = false;
+				result = resp.answer;
+			},
+			(Variant v) {
+				send(from, ErrorResp("Listening REFACE!"));
+			});
+	}
+	return result;
 }

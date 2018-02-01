@@ -5,12 +5,12 @@ import vibe.vibe;
 import core.gs;
 
 Json fromRefaceCallback(RefaceCallback rc) {
-  return Json([
-    "class": Json("reface")
-  ]);
+	return Json([
+		"class": Json("reface")
+	]);
 }
 
 RefaceCallbackResp toRefaceCallbackResp(Json json) {
-  return RefaceCallbackResp(
-    json["answer"].to!bool);
+	return RefaceCallbackResp(
+		json["answer"].to!bool);
 }
