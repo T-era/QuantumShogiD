@@ -35,7 +35,6 @@ class Origin {
 		}
 
 		void Decide(Quantum q, PieceType[] dec) {
-			//bool ret;
 			auto unfixedAll = PieceType.AllPiece;
 			auto pd = new QDecider!(Quantum, PieceType)(
 				this.pieces,
@@ -47,7 +46,6 @@ class Origin {
 				(PieceType p) { return p.countInSide; });
 
 			pd.updateFilled();
-			//return ret;
 		}
 	}
 

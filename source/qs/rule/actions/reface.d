@@ -51,7 +51,7 @@ class RefaceCont : ActionCont {
 
 			// refaceできないpossibilityは消滅する
 			if (removingPossibility.length > 0) {
-				q._listener(q, removingPossibility);
+				q.listener(q, removingPossibility);
 			}
 		} else {
 			throw new Exception("???");

@@ -154,6 +154,10 @@ class Server : ServerInterface {
 			toInHand.side = side;
 			toInHand.face = 0;
 			toInHand.possibility = toInHand.possibility.remove!((p) { return p == PieceType.ou; });
+
+			// TODO decide again
+			toInHand.listener(toInHand, [PieceType.ou]);
+
 			(side ? this.inHandT : this.inHandF) ~= toInHand;
 		}
 
@@ -237,48 +241,58 @@ bool _isEdge(bool side, Pos pos) {
 
 
 unittest {
+	Pos p(int x, int y) { return new Pos(x, y); }
+	void _moveTo(Server server, bool side, Pos from, int dx, int dy, bool reface) {
+		Pos to = p(from._x + dx, from._y + dy);
+		server.aHandStep(side, from, to, () => reface);
+		from._x = to._x;
+		from._y = to._y;
+	}
 	{
+		// お互いに取り合うテスト(手駒確認)
 		Server server = new Server(newTimer(99,99));
 		assert(! server.aHandStep(
 							true,
-							new Pos(0, 6),
-							new Pos(0, 2),
-							() { return false; }),
+							p(0, 6),
+							p(0, 2),
+							() => false),
 						"Step 1st");
+		assert(server.inHandT.length == 1, "inhand t");
 		assert(! server.aHandStep(
 							false,
-							new Pos(1, 2),
-							new Pos(1, 6),
-							() { return true; }),
+							p(1, 2),
+							p(1, 6),
+							() => true),
 						"Step 2nd");
 		assert(server.inHandT.length == 1, "inhand t");
 		assert(server.inHandF.length == 1, "inhand f");
 	}
 	{
+		// とりとめもなく動くテスト
 		Server server = new Server(newTimer(99,99));
 		assert(! server.aHandStep(
 				true,
-				new Pos(0, 6),
-				new Pos(0, 5),
-				() { return false; }),
+				p(0, 6),
+				p(0, 5),
+				() => false),
 			"Step 1st");
 		assert(! server.aHandStep(
 				false,
-				new Pos(1, 2),
-				new Pos(1, 3),
-				() { return false; }),
+				p(1, 2),
+				p(1, 3),
+				() => false),
 			"Step 2nd");
 		assert(! server.aHandStep(
 				true,
-				new Pos(0, 5),
-				new Pos(0, 4),
-				() { return false; }),
+				p(0, 5),
+				p(0, 4),
+				() => false),
 			"Step 3rd");
 		assert(! server.aHandStep(
 				false,
-				new Pos(1, 3),
-				new Pos(1, 4),
-				() { return false; }),
+				p(1, 3),
+				p(1, 4),
+				() => false),
 			"Step 4th");
 		assert(server.inHandT.length == 0, "inhand t");
 		assert(server.inHandF.length == 0, "inhand f");
@@ -289,20 +303,20 @@ unittest {
 				true,
 				new Pos(0, 6),
 				new Pos(0, 2),
-				() { return false; }),
+				() => false),
 			"Step 1st");
 		Quantum qInHand = server.get(new Pos(0, 2));
 		assert(! server.aHandStep(
 				false,
 				new Pos(1, 2),
 				new Pos(0, 2),
-				() { return false; }),
+				() => false),
 			"Step 2nd take");
 		assert(! server.aHandStep(
 				true,
 				new Pos(1, 6),
 				new Pos(1, 5),
-				() { return false; }),
+				() => false),
 			"Step 3rd");
 		server.aHandPut(
 				false,
@@ -312,13 +326,13 @@ unittest {
 				true,
 				new Pos(2, 6),
 				new Pos(2, 5),
-				() { return false; }),
+				() => false),
 			"Step 5th");
 		assert(! server.aHandStep(
 				false,
 				new Pos(4, 4),
 				new Pos(6, 4),
-				() { return false; }),
+				() => false),
 			"Step 6th as hi");
 		bool[] boolList = server.originT.pieces.map!((q) {
 			return ((q.possibility.length == 1
@@ -327,53 +341,79 @@ unittest {
 				|| (! contains(q.possibility, PieceType.hi))
 			);
 		}).array;
-		assert(boolList.reduce!((a, b) {
-					return a && b;
-				}), "true side no hi");
+		assert(boolList.reduce!((a, b) => a && b), "true side no hi");
 		assert(server.inHandT.length == 1, "inhand t");
 		assert(server.inHandF.length == 0, "inhand f");
 	}
-	{ // Finish
+	{
+		// Finish 1 (<gin or ou>から成銀によってouが確定)
 		Server server = new Server(newTimer(99,99));
 		bool isFinished = false;
 		server.setCallbacks((a) {}, (b) { isFinished = true; });
-		Pos p(int x, int y) { return new Pos(x, y); }
 		Pos[] allPos = [
 			p(0,6),p(1,6),p(2,6)	// gin, gin, ou
 		];
-		void _moveTo(bool side, Pos from, int dx, int dy, bool reface) {
-			Pos to = p(from._x + dx, from._y + dy);
-			server.aHandStep(side, from, to, () { return reface; });
-			from._x = to._x;
-			from._y = to._y;
-		}
 
 		Pos pRiv = p(1, 1);
 		foreach (pos; allPos) {
-			_moveTo(true, pos, 1, -1, false);
-			_moveTo(false, pRiv, 1, 0, false);
+			_moveTo(server, true, pos, 1, -1, false);
+			_moveTo(server, false, pRiv, 1, 0, false);
 		}
 		foreach (pos; allPos) {
-			_moveTo(true, pos, -1, 1, false);
-			_moveTo(false, pRiv, -1, 0, false);
+			_moveTo(server, true, pos, -1, 1, false);
+			_moveTo(server, false, pRiv, -1, 0, false);
 		}
 		foreach(i; 0..3) {
 			foreach (pos; allPos) {
-				_moveTo(true, pos, 0, -1, false);
+				_moveTo(server, true, pos, 0, -1, false);
 				if (i % 2 == 0) {
-					_moveTo(false, pRiv, 1, 0, false);
+					_moveTo(server, false, pRiv, 1, 0, false);
 				} else {
-					_moveTo(false, pRiv, -1, 0, false);
+					_moveTo(server, false, pRiv, -1, 0, false);
 				}
 			}
 		}
-		_moveTo(true, allPos[0], 0, -1, true);
+		_moveTo(server, true, allPos[0], 0, -1, true);
 		assert(! isFinished, "Refece to become gin");
-		_moveTo(false, pRiv, 1, 0, false);
+		_moveTo(server, false, pRiv, 1, 0, false);
 
-		_moveTo(true, allPos[1], 0, -1, true);
+		_moveTo(server, true, allPos[1], 0, -1, true);
 		assert(! isFinished, "Refece to become gin");
-		_moveTo(false, p(2, 2), 0, 1, false);
+		_moveTo(server, false, p(2, 2), 0, 1, false);
 		assert(isFinished, "Remains is ou");
+	}
+	{
+		// Finish 2 (<gin or ou>から銀が取られてouが確定)
+		Server server = new Server(newTimer(99,99));
+		bool isFinished = false;
+		server.setCallbacks((a) {}, (b) { isFinished = true; });
+		Pos[] allPos = [
+			p(0,6),p(1,6),p(2,6)	// gin, gin, ou
+		];
+
+		Pos pRiv = p(1, 1);
+		foreach (pos; allPos) {
+			_moveTo(server, true, pos, 1, -1, false);
+			_moveTo(server, false, pRiv, 1, 0, false);
+		}
+		foreach (pos; allPos) {
+			_moveTo(server, true, pos, -1, 1, false);
+			_moveTo(server, false, pRiv, -1, 0, false);
+		}
+		foreach (pos; allPos[0..2]) {
+			_moveTo(server, true, pos, 0, -1, false);  // step forward...not kk
+			_moveTo(server, false, p(pos._x, 2), 0, 3, false);  // taken.
+		}
+		auto toOu = allPos[2];
+		_moveTo(server, true, toOu, 0, -1, false);  // step forward...not kk
+
+		assert(server.inHandF.length == 2, "TWO gin both in hand");
+		assert(server.inHandF.map!(q => q.possibility).array == [[PieceType.gin],[PieceType.gin]], "two GIN both in hand");
+		auto maybeOu = server.get(toOu);
+
+		assert(maybeOu.possibility == [PieceType.ou], "Must be ou");
+		assert(! isFinished, "Still not taken");
+		_moveTo(server, false, p(toOu._x, 2), 0, 3, false);  // taken
+		assert(isFinished, "Ou has taken");
 	}
 }

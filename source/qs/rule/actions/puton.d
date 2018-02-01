@@ -73,7 +73,7 @@ class PutOnCont : ActionCont {
 			if (removedPossibility.length > 0) {
 				this.who.possibility = newPossibility;
 
-				this.who._listener(this.who, removedPossibility);
+				this.who.listener(this.who, removedPossibility);
 			}
 		} else {
 			this.who.pos = this.to;

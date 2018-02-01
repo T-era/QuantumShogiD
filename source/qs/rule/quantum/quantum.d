@@ -19,11 +19,11 @@ class Quantum {
 	Action!Pos putOn;
 	Action!Pos move;
 
-	DecisionListener _listener;
+	DecisionListener listener;
 
 	this(bool side, DecisionListener listener, PieceType[] type, Pos pos) {
 		this.side = side;
-		this._listener = listener;
+		this.listener = listener;
 		this.possibility = type;
 		this.pos = pos;
 		this.face = 0;

@@ -54,7 +54,7 @@ class MoveCont : ActionCont {
 		this.who.pos = this.to;
 		this.who.possibility = this.newPossibility;
 		if (this.removedPossibility.length > 0) {
-			this.who._listener(this.who, this.removedPossibility);
+			this.who.listener(this.who, this.removedPossibility);
 		}
 	}
 }
