@@ -66,56 +66,54 @@ var board = new (function() {
 		var myInHand = side ? tInHand : fInHand;
 		var rInHand = side ? fInHand : tInHand;
 
-		showBoard(side, board);
-		showMyHand(myInHand);
-		showRHand(rInHand);
+		showBoard(board, side);
+		showMyHand(myInHand, side);
+		showRHand(rInHand, side);
 	}
 
-	function showBoard(side, json) {
+	function showBoard(json, side) {
 		for (var y = 0; y < 9; y ++) {
 			for (var x = 0; x < 9; x ++) {
 				var showX = ss.conv(side, x);
 				var showY = ss.conv(side, y);
 				var dom = boardCells[showY][showX];
-				showCell(dom, json[y][x]);
+				showCell(dom, json[y][x], side);
 			}
 		}
 	}
-	function showMyHand(json) {
+	function showMyHand(json, side) {
 		for (var y = 0; y < 13; y ++) {
 			for (var x = 0; x < 3; x ++) {
 				var i = y * 3 + x;
 				var dom = myHandCells[y][x];
 				if (json.length > i) {
-					showCell(dom, json[i]);
+					showCell(dom, json[i], side);
 				} else {
-					showCell(dom, null);
+					showCell(dom, null, side);
 				}
 			}
 		}
 	}
-	function showRHand(json) {
+	function showRHand(json, side) {
 		for (var y = 0; y < 13; y ++) {
 			for (var x = 0; x < 3; x ++) {
 				var i = y * 3 + x;
 				var dom = rHandCells[y][x];
 				if (json.length > i) {
-					showCell(dom, json[i]);
+					showCell(dom, json[i], side);
 				} else {
-					showCell(dom, null);
+					showCell(dom, null, side);
 				}
 			}
 		}
 	}
 
-	function showCell(jqDom, q) {
+	function showCell(jqDom, q, side) {
+		simple_show.show(jqDom, q, side);
 		if (q) {
-			// TODO
-			jqDom.text(q.possibility.length);
 			jqDom.attr('title', q.possibility.map(showPieceType(q.side)));
 		} else {
-			jqDom.text('');
-      jqDom.attr('title', null);
+			jqDom.attr('title', null);
 		}
 	}
   var ptMapping = {

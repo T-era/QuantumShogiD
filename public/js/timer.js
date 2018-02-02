@@ -36,14 +36,25 @@ var timer = new (function() {
     } else {
       var my = side ? json.timeT : json.timeF;
       var r = side ? json.timeF : json.timeT;
-      myView.text(my.remain);
-      rView.text(r.remain);
+      myView.text(toShow(my.remain));
+      rView.text(toShow(r.remain));
       if (my.notime) {
         myView.addClass('notime');
       }
       if (r.notime) {
         rView.addClass('notime');
       }
+    }
+  }
+  function toShow(totalSec) {
+    var sec = totalSec % 60;
+    var totalMin = Math.floor(totalSec / 60);
+    var min = totalMin % 60;
+    var hour = Math.floor(totalMin / 60);
+    if (hour > 0) {
+      return [hour, ':', min, ':', sec].join('');
+    } else {
+      return [min, ':', sec].join('');
     }
   }
 })();
