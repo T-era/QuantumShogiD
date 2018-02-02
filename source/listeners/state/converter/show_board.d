@@ -3,7 +3,7 @@ module listeners.state.converter.show_board;
 import vibe.vibe;
 
 import core.gs;
-import listeners.state.converter.showr_io;
+import listeners.state.converter.show_io;
 
 Json fromBoard(Board board) {
 	Json ret = Json.emptyArray;

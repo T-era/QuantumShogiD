@@ -25,7 +25,9 @@ WaitingResp waiting(scope WebSocket socket, Matcher waitingSrv, string type, str
 			}
 			socket.send(Json([
 				"gid": Json(p.gid),
-				"side": Json(p.sente)
+				"side": Json(p.sente),
+				"nameT": Json(p.nameT),
+				"nameF": Json(p.nameF)
 			]).to!string);
 			gsTid = tid;
 			received = true;

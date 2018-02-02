@@ -8,10 +8,11 @@ import vibe.vibe : WebSocket, logInfo, logError, Json, parseJsonString, msecs, s
 
 import core.gs;
 import listeners.qss;
-import listeners.state.converter.showr_io;
+import listeners.state.converter.show_io;
 import listeners.state.converter.step_io;
 import listeners.state.converter.reface_io;
 import listeners.state.converter.put_io;
+import listeners.state.converter.show_remains;
 
 struct GResp {
 	LoopStatus status;
@@ -59,6 +60,11 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
 			logInfo("HandPut response");
 
 			socket.send(hpr.fromHandPutResp().to!string);
+		},
+		(Remains r) {
+			Json jsonR = r.fromRemains();
+			jsonR["class"] = Json("time");
+			socket.send(jsonR.to!string);
 		});
 
 	if (finished) {
@@ -85,10 +91,12 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
 				logInfo(format("Put request %s", request));
 				send(gTid, thisTid, toHandPutReq(request));
 				break;
+			case "time":
+				send(gTid, thisTid, RemainsReq());
+				break;
 			default:
 				throw new Exception(format("Unknown class: %s", request));
 		}
-		logInfo(request.to!string);
 	}
 	return GResp(LoopStatus.OnWaiting);
 }

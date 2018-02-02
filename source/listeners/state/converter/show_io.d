@@ -1,4 +1,4 @@
-module listeners.state.converter.showr_io;
+module listeners.state.converter.show_io;
 
 import std.algorithm;
 import std.array;
@@ -8,7 +8,7 @@ import core.gs;
 import listeners.state.converter.show_board;
 import listeners.state.converter.show_inhand;
 import listeners.state.converter.show_remains;
-
+public import listeners.state.converter.show_remains : fromRemains;
 
 Json fromShowResp(ShowResp sr) {
 	return Json([

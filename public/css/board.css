@@ -61,3 +61,27 @@ html, body {
 #board>.cell:hover,#inHandMy>.cell:hover,#inHandR>.cell:hover {
 	background: #eee;
 }
+
+#timer {
+	position: absolute;
+	top: 0%;
+	left: 80%;
+	height: 20%;
+	width: 20%;
+	background: pink;
+}
+#timer table {
+	width: 100%;
+	border-spacing: 0;
+}
+#timer th {
+	border-bottom: 1px solid #888;
+}
+#timer td {
+	border-bottom: 1px solid #888;
+	text-align: right;
+}
+#timer td.notime {
+	border: 3px doubled red;
+	text-align: right;
+}

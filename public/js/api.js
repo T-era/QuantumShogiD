@@ -15,11 +15,12 @@ var api = new (function() {
 			console.log("Error!");
 		};
 		socket.onmessage = handleError(function(msgJson) {
-			var gid = msgJson['gid'];
-			var thisSide = msgJson['side'];
+			var gid = msgJson.gid;
+			var thisSide = msgJson.side;
+			var nameT = msgJson.nameT;
+			var nameF = msgJson.nameF;
 
-			console.log(msgJson, thisSide, gid)
-			control.entryCallback(thisSide);
+			control.entryCallback(thisSide, nameT, nameF);
 
 			goonQs(gid, socket, thisSide);
 		});
@@ -70,6 +71,11 @@ var api = new (function() {
 			}
 		}));
 	};
+	this.timer = function() {
+		socket.send(JSON.stringify({
+			class: 'time'
+		}));
+	}
 
 
 	function goonQs(gid, socket, thisSide) {
@@ -90,6 +96,8 @@ var api = new (function() {
 						}));
 					}
 				}
+			} else if (cls === 'time') {
+				timer.callback(msgJson);
 			} else if (cls === 'result') {
 				uitools.showMessage(msgJson.win ? 'You win!' : 'You Lose');
 			} else if (cls === 'error') {

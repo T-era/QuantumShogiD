@@ -1,4 +1,4 @@
-module listeners.state.matching;
+module listeners.state.entry;
 
 import vibe.vibe;
 
@@ -10,13 +10,14 @@ struct EntryResp {
 	string type;
 	string uid;
 }
-EntryResp entry(scope WebSocket socket, Matcher waitingSrv, string uid) {
+EntryResp entry(scope WebSocket socket, Matcher matchingSrv, string uid) {
 	if (socket.waitForData(100.msecs)) {
 		auto request = parseJsonString(socket.receiveText());
 		if (request["class"] == "entry") {
 			string type = request["type"].to!string;
+			string name = request["name"].to!string;
 
-			waitingSrv.entry(type, uid);
+			matchingSrv.entry(name, type, uid);
 			return EntryResp(LoopStatus.Success, type, uid);
 		} else {
 			throw new Exception(format("Unexpected request: %s", request));

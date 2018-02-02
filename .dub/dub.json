@@ -1,6 +1,6 @@
 {
 	"dub": {
-		"lastUpgrade": "2018-01-31T22:15:20.683843",
+		"lastUpgrade": "2018-02-01T22:43:39.843423",
 		"cachedUpgrades": {
 			"memutils": "0.4.9",
 			"libevent": "2.0.2+2.0.16",

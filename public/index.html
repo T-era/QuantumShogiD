@@ -17,12 +17,14 @@
 	<script type='text/javascript' src='js/control.js'></script>
 	<script type='text/javascript' src='js/side_support.js'></script>
 	<script type='text/javascript' src='js/uitools.js'></script>
+	<script type='text/javascript' src='js/timer.js'></script>
 	<script type='text/javascript'>
 $(function() {
 	main.init();
 	mystatus.init();
 	board.init();
 	uitools.init();
+	timer.init();
 });
 	</script>
 </head>
@@ -49,6 +51,12 @@ $(function() {
 		<div id='board'>
 		</div>
 		<div id='inHandMy'></div>
+		<div id='timer'>
+			<table>
+				<tr><th id='my_name'></th><td id='my_remain'></td></tr>
+				<tr><th id='r_name'></th><td id='r_remain'></td></tr>
+			</table>
+		</div>
 	</div>
 
 	<!-- dialogs -->

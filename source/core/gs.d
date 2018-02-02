@@ -9,6 +9,7 @@ import std.array;
 public import core.receiver.show;
 public import core.receiver.hand_step;
 public import core.receiver.hand_put;
+public import core.receiver.time_remains;
 import qs.server;
 
 
@@ -54,6 +55,7 @@ void gServer(string type, Tid tid1, Tid tid2) {
 	void delegate(Tid, ShowReq) showF = asFunc!(ShowResp, ShowReq)(server, &show);
 	void delegate(Tid, HandStepReq) handStepF = asFunc!(HandStepResp, HandStepReq)(server, &handStep);
 	void delegate(Tid, HandPutReq) handPutF = asFunc!(HandPutResp, HandPutReq)(server, &handPut);
+	void delegate(Tid, RemainsReq) remainsF = asFunc!(Remains, RemainsReq)(server, &timeRemains);
 	for (bool running = true; running; ) {
 		receive(
 			(bool b) {
@@ -61,7 +63,8 @@ void gServer(string type, Tid tid1, Tid tid2) {
 			},
 			showF,
 			handStepF,
-			handPutF);
+			handPutF,
+			remainsF);
 	}
 }
 struct ErrorResp {

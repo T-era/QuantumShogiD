@@ -7,7 +7,7 @@ import std.uuid;
 import vibe.vibe;
 
 import core.matching;
-import listeners.state.matching;
+import listeners.state.entry;
 import listeners.state.waiting;
 import listeners.state.gaming;
 

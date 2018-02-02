@@ -24,10 +24,10 @@ HandStepResp handStep(Tid from, ServerInterface server, HandStepReq req) {
 		req.side,
 		req.from.toPos(),
 		req.to.toPos(),
-		() => listenReface(from)));
+		() => listenReface(from, server)));
 }
 
-bool listenReface(Tid from) {
+bool listenReface(Tid from, ServerInterface server) {
 	send(from, RefaceCallback());
 
 	bool result;
@@ -36,6 +36,9 @@ bool listenReface(Tid from) {
 			(RefaceCallbackResp resp) {
 				listening = false;
 				result = resp.answer;
+			},
+			(Tid from, RemainsReq rr) {
+				send(from, server.getRemains());
 			},
 			(Variant v) {
 				send(from, ErrorResp("Listening REFACE!"));

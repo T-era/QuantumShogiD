@@ -24,20 +24,3 @@ HandPutResp handPut(Tid from, ServerInterface server, HandPutReq req) {
 		req.to.toPos());
 	return HandPutResp();
 }
-
-bool listenReface(Tid from) {
-	send(from, RefaceCallback());
-
-	bool result;
-	for (bool listening = true; listening;) {
-		receive(
-			(RefaceCallbackResp resp) {
-				listening = false;
-				result = resp.answer;
-			},
-			(Variant v) {
-				send(from, ErrorResp("Listening REFACE!"));
-			});
-	}
-	return result;
-}

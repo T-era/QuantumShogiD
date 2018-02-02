@@ -2,15 +2,20 @@ var control = new (function() {
 	var selected = null;
 	var selectedFromHand = false;
 	var side;
+	var myName;
+	var rName;
 
 	this.entry = function(name, type) {
 		api.initWs(function() {
 			api.entry(name, type);
 		});
 	};
-	this.entryCallback = function(thisSide) {
+	this.entryCallback = function(thisSide, nameT, nameF) {
 		side = thisSide;
+		myName = side ? nameT : nameF;
+		rName = side ? nameF : nameT;
 		api.show();
+		timer.start(side, myName, rName);
 	};
 	this.showCallback = function(json) {
 		if (json['sideOn'] === side) {
@@ -70,6 +75,7 @@ var control = new (function() {
 	}
 
 	this.closeConnection = function() {
+		timer.stop();  // TODO ここだけ？
 		api.closeConnection();
 	};
 })();

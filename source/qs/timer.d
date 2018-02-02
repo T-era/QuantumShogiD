@@ -52,8 +52,9 @@ private class SideTimer {
 		return duration;
 	}
 	void switchOff() {
-		Duration duration = this._duration();
 		this.isWork = false;
+		Duration duration = this._duration();
+
 		if (this.noRest) {
 			if (this.minTime < duration) {
 				foreach(callback; this.callbackList) {
@@ -84,7 +85,7 @@ private class SideTimer {
 		Duration currentMax = this.noRest ? this.minTime : this.rest;
 		Duration d = this.isWork ? (currentMax - this._duration()) : currentMax;
 
-		return RemainsEach(this.noRest, d);
+		return RemainsEach(d <= this.minTime, d);
 	}
 }
 
