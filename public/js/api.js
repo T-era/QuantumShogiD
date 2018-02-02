@@ -1,7 +1,7 @@
 var api = new (function() {
 	var socket;
 	var gid;
-	this.initWs = function() {
+	this.initWs = function(openThen) {
 		var baseUrl = getBaseURL();
 		socket = new WebSocket(baseUrl + "/qss");
 		mystatus.asReadyState(socket);
@@ -26,6 +26,7 @@ var api = new (function() {
 		socket.onopen = function() {
 			mystatus.asReadyState(socket);
 			console.log('Ready.')
+			openThen();
 		};
 	};
 	this.closeConnection = function() {
@@ -79,13 +80,19 @@ var api = new (function() {
 			if (cls === 'you_turn') {
 				api.show();
 			} else if (cls === 'reface') {
-				var answer = confirm('Reface ??');
-				socket.send(JSON.stringify({
-					class: 'reface',
-					answer: answer
-				}));
+				var answer = uitools.showConfirm('Reface ?',
+					refaceConfirmThen(true),
+					refaceConfirmThen(false));
+				function refaceConfirmThen(answer) {
+					return function() {
+						socket.send(JSON.stringify({
+							class: 'reface',
+							answer: answer
+						}));
+					}
+				}
 			} else if (cls === 'result') {
-				alert(msgJson.win ? 'You win' : 'You Lose');
+				uitools.showMessage(msgJson.win ? 'You win!' : 'You Lose');
 			} else if (cls === 'error') {
 				alert(msgJson['message']);
 			} else if (cls === 'show'){

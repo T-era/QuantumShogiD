@@ -4,7 +4,9 @@ var control = new (function() {
 	var side;
 
 	this.entry = function(name, type) {
-		api.entry(name, type);
+		api.initWs(function() {
+			api.entry(name, type);
+		});
 	};
 	this.entryCallback = function(thisSide) {
 		side = thisSide;
@@ -12,7 +14,7 @@ var control = new (function() {
 	};
 	this.showCallback = function(json) {
 		if (json['sideOn'] === side) {
-			alert('TODO Your');
+			uitools.showMessage('Your turn');
 		}
 		board.show(side, json['board'], json['tInHand'], json['fInHand']);
 		// TODO json['timer']

@@ -16,13 +16,13 @@
 	<script type='text/javascript' src='js/board.js'></script>
 	<script type='text/javascript' src='js/control.js'></script>
 	<script type='text/javascript' src='js/side_support.js'></script>
+	<script type='text/javascript' src='js/uitools.js'></script>
 	<script type='text/javascript'>
 $(function() {
 	main.init();
 	mystatus.init();
-	api.initWs();
 	board.init();
-	console.log("help!");
+	uitools.init();
 });
 	</script>
 </head>
@@ -44,17 +44,25 @@ $(function() {
 		</ul>
 	</div>
 	<div id='status_show'>S</div>
+	<div id='main'>
+		<div id='inHandR'></div>
+		<div id='board'>
+		</div>
+		<div id='inHandMy'></div>
+	</div>
+
+	<!-- dialogs -->
 	<div id='init_dialog'>
 		<label for='input_name'>Name</label><input type='text' id='input_name' />
 		<select id='select_type'>
 			<option value='1hour/1min'>Standard</option>
 		</select>
 	</div>
-	<div id='main'>
-		<div id='inHandR'></div>
-		<div id='board'>
-		</div>
-		<div id='inHandMy'></div>
+	<div id='message_dialog'>
+		<span id='message_output'>test</span>
+	</div>
+	<div id='confirm_dialog'>
+		<span id='confirm_output'>test</span>
 	</div>
 </body>
 </html>
