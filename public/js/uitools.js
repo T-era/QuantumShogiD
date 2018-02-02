@@ -6,7 +6,6 @@ var uitools = new (function() {
         .dialog({
           autoOpen: false,
           modal: true,
-          closeOnEscape: false,
           buttons: {
             'OK': function() {
               messageDialog.dialog('close');
@@ -14,7 +13,6 @@ var uitools = new (function() {
             }
           }
         });
-      $("#message_dialog").parent().find('.ui-dialog-titlebar-close').hide();
       var messageOutput = $('#message_output')
       return function (message, then) {
         messageOutput.text(message);

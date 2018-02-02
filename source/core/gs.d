@@ -24,6 +24,7 @@ GType[string] types;
 
 static this() {
 	types = [
+		"2min/1min": GType(60, 120),
 		"1hour/1min": GType(60, 3600)
 	];
 }
@@ -34,7 +35,7 @@ qs.timer.Timer timerByType(string type) {
 }
 
 void gServer(string type, Tid tid1, Tid tid2) {
-	auto timer = timerByType(type);	// TODO by type.
+	auto timer = timerByType(type);
 	ServerInterface server = new Server(timer);
 	server.setCallbacks(
 		(bool side) {

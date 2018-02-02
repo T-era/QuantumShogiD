@@ -5,6 +5,7 @@ import std.format;
 
 import core.matching;
 import listeners.alive;
+import listeners.type_get;
 import listeners.qss;
 
 const PORT = 8080;
@@ -19,6 +20,7 @@ void main() {
 	scope(exit) waiting.stopAll();
 	router.get("/qss", handleWebSockets(qssListener(waiting)));
 	router.get("/", &alive);
+	router.get("/types", &getTypes);
 	router.get("/*", serveStaticFiles("./public/"));
 
 	listenHTTP(settings, router);

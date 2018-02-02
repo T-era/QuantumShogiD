@@ -8,6 +8,14 @@ var main = new (function() {
 				at: 'left bottom'
 			}
 		});
+		$.getJSON('/types',
+			function(l) {
+				l.forEach(function(item) {
+					$('#select_type').append(
+						$('<option>', { value: item }).text(item)
+					);
+				});
+			});
 
 		initDialog = $('#init_dialog').dialog({
 			autoOpen: true,

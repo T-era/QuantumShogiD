@@ -25,7 +25,6 @@ var api = new (function() {
 		});
 		socket.onopen = function() {
 			mystatus.asReadyState(socket);
-			console.log('Ready.')
 			openThen();
 		};
 	};
@@ -35,7 +34,7 @@ var api = new (function() {
 	this.entry = function(name, type) {
 		socket.send(JSON.stringify({
 				class: 'entry',
-				type: '1hour/1min',
+				type: type,
 				name: name
 			}));
 	};
@@ -94,7 +93,7 @@ var api = new (function() {
 			} else if (cls === 'result') {
 				uitools.showMessage(msgJson.win ? 'You win!' : 'You Lose');
 			} else if (cls === 'error') {
-				alert(msgJson['message']);
+				uitools.showMessage(msgJson['message']);
 			} else if (cls === 'show'){
 				control.showCallback(msgJson);
 			} else {
