@@ -69,7 +69,7 @@ class PieceType {
 	}
 
 	bool canMoveTo(int face, int dx, int dy) {
-		return any!((a) { return a.isMatch(dx, dy); })(this.movation[face]);
+		return any!((a) => a.isMatch(dx, dy))(this.movation[face]);
 	}
 	override string toString() {
 		return _name;

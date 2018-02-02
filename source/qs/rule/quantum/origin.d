@@ -39,11 +39,11 @@ class Origin {
 			auto pd = new QDecider!(Quantum, PieceType)(
 				this.pieces,
 				unfixedAll,
-				(Quantum q) { return q.possibility; },
+				(Quantum q) => q.possibility,
 				(Quantum q, PieceType[] p) {
 					q.possibility = p;
 				},
-				(PieceType p) { return p.countInSide; });
+				(PieceType p) => p.countInSide);
 
 			pd.updateFilled();
 		}

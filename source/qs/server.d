@@ -122,10 +122,10 @@ class Server : ServerInterface {
 
 		if (side) {
 			if (! contains(this.inHandT, q)) throw new Exception("Not in in-hand list");
-			this.inHandT = this.inHandT.filter!((qq) { return qq != q; }).array;
+			this.inHandT = this.inHandT.filter!((qq) => qq != q).array;
 		} else {
 			if (! contains(this.inHandF, q)) throw new Exception("Not in in-hand list");
-			this.inHandF = this.inHandF.filter!((qq) { return qq != q; }).array;
+			this.inHandF = this.inHandF.filter!((qq) => qq != q).array;
 		}
 
 		this.field[to._y][to._x] = q;
@@ -153,7 +153,7 @@ class Server : ServerInterface {
 			toInHand.pos = null;
 			toInHand.side = side;
 			toInHand.face = 0;
-			toInHand.possibility = toInHand.possibility.remove!((p) { return p == PieceType.ou; });
+			toInHand.possibility = toInHand.possibility.remove!((p) => p == PieceType.ou);
 
 			// TODO decide again
 			toInHand.listener(toInHand, [PieceType.ou]);

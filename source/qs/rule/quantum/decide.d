@@ -30,7 +30,7 @@ class QDecider(S, T) {
 				}
 			}
 
-			auto sumVolume = condition.map!((a) { return this.howGetTypeVolume(a); }).reduce!((prev, current) {
+			auto sumVolume = condition.map!((a) => this.howGetTypeVolume(a)).reduce!((prev, current) {
 				return prev + current;
 			});
 			if (hitMember.length == sumVolume) {
@@ -114,7 +114,7 @@ unittest {
 		assert(_moveTo(pieceA, +1, +2), "Prepare 1(move as kei) fail");
 		assert(_moveTo(pieceB, +1, +2, true), "Prepare 2(move as key) fail");
 		Quantum[] anotherPiece = pieces[2..$];
-		bool apck = ! anotherPiece.all!((Quantum test) { return contains(test.possibility, PieceType.kei); });
+		bool apck = ! anotherPiece.all!((Quantum test) => contains(test.possibility, PieceType.kei));
 		assert(apck, "Another piece can't kei");
 	}
 	{

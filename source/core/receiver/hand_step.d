@@ -24,7 +24,7 @@ HandStepResp handStep(Tid from, ServerInterface server, HandStepReq req) {
 		req.side,
 		req.from.toPos(),
 		req.to.toPos(),
-		() { return listenReface(from); }));
+		() => listenReface(from)));
 }
 
 bool listenReface(Tid from) {
