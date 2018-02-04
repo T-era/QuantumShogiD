@@ -38,6 +38,7 @@ html, body {
 }
 .cell {
 	position: absolute;
+	background-position: center center;
 }
 #board>.cell {
 	position: absolute;

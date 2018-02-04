@@ -15,7 +15,9 @@ var simple_show = new (function() {
       jqDom.css({
         'background-image': 'url("' + fileName + '")',
         'background-size': 'contain',
-        'background-repeat': 'no-repeat'
+        'background-repeat': 'no-repeat',
+        'background-position': 'center'
+
       });
       jqDom.text(' ');
     } else {
