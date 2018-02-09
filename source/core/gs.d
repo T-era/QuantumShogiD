@@ -14,6 +14,7 @@ import qs.server;
 
 
 struct Turn {}
+struct GRetire{}
 struct GOver {
 	bool win;
 }
@@ -58,8 +59,13 @@ void gServer(string type, Tid tid1, Tid tid2) {
 	void delegate(Tid, RemainsReq) remainsF = asFunc!(Remains, RemainsReq)(server, &timeRemains);
 	for (bool running = true; running; ) {
 		receive(
-			(bool b) {
-				running = b;
+			(GRetire _, Tid from) {
+				running = false;
+				foreach (tid; [tid1, tid2]) {
+					if (tid != from) {
+						send(tid, GRetire());
+					}
+				}
 			},
 			showF,
 			handStepF,

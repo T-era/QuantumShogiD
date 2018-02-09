@@ -26,4 +26,4 @@ EntryResp entry(scope WebSocket socket, Matcher matchingSrv, string uid) {
 	return EntryResp(LoopStatus.OnWaiting);
 }
 
-void entrySuspended() {}
+EntryResp entrySuspended() { return EntryResp(LoopStatus.Failed); }

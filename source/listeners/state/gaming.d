@@ -34,6 +34,14 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
 				"class": Json("your_turn")
 			]).to!string);
 		},
+		(GRetire r) {
+			logError("Ritire");
+			socket.send(Json([
+				"class": Json("retired"),
+				"message": Json("Partner is gone away..."),
+			]).to!string);
+			finished = true;
+		},
 		(ErrorResp e) {
 			logError("Error %s", e);
 			socket.send(Json([
@@ -99,4 +107,11 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
 		}
 	}
 	return GResp(LoopStatus.OnWaiting);
+}
+
+auto gamingDisconnected(Tid gTid) {
+	return () {
+		send(gTid, GRetire(), thisTid);
+		return GResp(LoopStatus.Failed);
+	};
 }

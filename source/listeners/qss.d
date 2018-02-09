@@ -15,7 +15,7 @@ enum LoopStatus {
 	OnWaiting, Success, Failed
 }
 
-R onWsGoing(R, T...)(R function(scope WebSocket socket, T args) f, void delegate() disconnected, scope WebSocket socket, T args) {
+R onWsGoing(R, T...)(R function(scope WebSocket socket, T args) f, R delegate() disconnected, scope WebSocket socket, T args) {
 	try {
 		R resp;
 		for (bool running = true; socket.connected && running; ) {
@@ -23,7 +23,7 @@ R onWsGoing(R, T...)(R function(scope WebSocket socket, T args) f, void delegate
 			running = (resp.status == LoopStatus.OnWaiting);
 		}
 		if (! socket.connected) {
-			disconnected();
+			return disconnected();
 		}
 		return resp;
 	} catch(Exception ex) {
@@ -39,7 +39,7 @@ auto qssListener(Matcher waitingSrv) {
 		string uid = randomUUID().toString;
 
 		EntryResp er = onWsGoing!(EntryResp, Matcher, string)
-				(&entry, () { entrySuspended(); }, socket, waitingSrv, uid);
+				(&entry, () { return entrySuspended(); }, socket, waitingSrv, uid);
 		if (er.status == LoopStatus.Failed) {
 			return;
 		}
@@ -49,6 +49,6 @@ auto qssListener(Matcher waitingSrv) {
 			return;
 		}
 		GResp gr = onWsGoing!(GResp, Tid, string)
-				(&gaming, () { /* TODO GOver */ }, socket, wr.gsTid, uid);
+				(&gaming, gamingDisconnected(wr.gsTid), socket, wr.gsTid, uid);
 	};
 }

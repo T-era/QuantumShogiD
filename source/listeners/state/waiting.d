@@ -52,5 +52,6 @@ WaitingResp waiting(scope WebSocket socket, Matcher waitingSrv, string type, str
 auto waitingDisconnected(Matcher waitingSrv, string type, string uid) {
 	return () {
 		waitingSrv.retire(type, uid);
+		return WaitingResp(LoopStatus.Failed);
 	};
 }
