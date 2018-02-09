@@ -62,11 +62,27 @@ html, body {
 #board>.cell:hover,#inHandMy>.cell:hover,#inHandR>.cell:hover {
 	background: #eee;
 }
-
-#timer {
+#misc {
 	position: absolute;
 	top: 0%;
 	left: 80%;
+	right: 0;
+}
+#status_show{
+	position: absolute;
+	top: 30px;
+	right: 5%;
+}
+#menu_bar{
+	position: absolute;
+	top: 0;
+	right: 5%;
+}
+
+#timer {
+	position: absolute;
+	top: 80%;
+	left: 0%;
 	height: 20%;
 	width: 20%;
 	background: #400;

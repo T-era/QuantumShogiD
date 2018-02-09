@@ -4,12 +4,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>QS</title>
 	<link rel='stylesheet' type='text/css' href='js/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css' />
-	<link rel='stylesheet' type='text/css' href='css/menu.css' />
+	<link rel='stylesheet' type='text/css' href='js/lib/jq_menu/mymenu.css' />
+	<link rel='stylesheet' type='text/css' href='js/lib/jq_menu/gmi/gmi.css' />
 	<link rel='stylesheet' type='text/css' href='css/label.css' />
 	<link rel='stylesheet' type='text/css' href='css/status.css' />
 	<link rel='stylesheet' type='text/css' href='css/board.css' />
 	<script type='text/javascript' src='js/lib/jquery-3.3.1.min.js'></script>
 	<script type='text/javascript' src='js/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js'></script>
+	<script type='text/javascript' src='js/lib/jq_menu/mymenu.js'></script>
+	<script type='text/javascript' src='js/lib/jq_menu/gmi/gmi.js'></script>
 	<script type='text/javascript' src='js/main.js'></script>
 	<script type='text/javascript' src='js/status.js'></script>
 	<script type='text/javascript' src='js/api.js'></script>
@@ -18,6 +21,7 @@
 	<script type='text/javascript' src='js/side_support.js'></script>
 	<script type='text/javascript' src='js/uitools.js'></script>
 	<script type='text/javascript' src='js/timer.js'></script>
+	<script type='text/javascript' src='js/setting.js'></script>
 
 	<script type='text/javascript' src='js/piece/simple_show.js'></script>
 
@@ -28,28 +32,13 @@ $(function() {
 	board.init();
 	uitools.init();
 	timer.init();
+	setting.init();
 });
 	</script>
 </head>
 <body>
-	<div id='menu_bar'>
-		<ul id='menu'>
-			<li><div>QS</div>
-				<ul>
-					<li><div id='mi_start'>Start</div></li>
-					<li><div id='mi_disconnect'>Disconnect</div></li>
-				</ul>
-			</li>
-			<li><div>View</div>
-				<ul>
-					<li><div id='mi_debugview'>Debug view</div></li>
-					<li><div id='mi_simpleview'>Simple view</div></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-	<div id='status_show'>S</div>
 	<div id='main'>
+		<div id='status_show'>S</div>
 		<div id='inHandR'></div>
 		<div id='board'>
 		</div>
@@ -59,6 +48,33 @@ $(function() {
 				<tr><th id='my_name'></th><td id='my_remain'></td></tr>
 				<tr><th id='r_name'></th><td id='r_remain'></td></tr>
 			</table>
+		</div>
+		<div id='menu_bar'>
+			<ul id='menu'>
+				<li><div>QS</div>
+					<ul>
+						<li><div id='mi_start'>Start</div></li>
+						<li><div id='mi_disconnect'>Disconnect</div></li>
+					</ul>
+				</li>
+				<li><div>View Setting</div>
+					<ul>
+						<li><div id='mi_simpleview'>Simple view</div></li>
+					</ul>
+				</li>
+				<li><div>Notification Setting</div>
+					<ul>
+						<li class="ui-widget-header"><div>Turn changed</div></li>
+						<li id='mi_notify_dialog'><div>Dialog</div></li>
+						<li id='mi_notify_sound'><div>Sound</div></li>
+						<li id='mi_notify_console'><div>Console.log</div></li>
+						<li class="ui-widget-header"><div>Error</div></li>
+						<li id='mi_error_dialog'><div>Dialog</div></li>
+						<li id='mi_error_sound'><div>Sound</div></li>
+						<li id='mi_error_console'><div>Console.log</div></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</div>
 

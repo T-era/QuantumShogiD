@@ -19,11 +19,14 @@ var control = new (function() {
 	};
 	this.showCallback = function(json) {
 		if (json['sideOn'] === side) {
-			uitools.showMessage('Your turn');
+			setting.notify('Your turn');
 		}
 		board.show(side, json['board'], json['tInHand'], json['fInHand']);
 		// TODO json['timer']
 	};
+	this.errorCallback = function(errorMessage) {
+		setting.error(errorMessage);
+	}
 	this.selectOnBoard = function(bx, by, boardCells, myHandCells) {
 		if (selected) {
 			api.step(side,

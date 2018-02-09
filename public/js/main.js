@@ -1,13 +1,8 @@
 var main = new (function() {
-	var initDialog;
-	var menuStart;
 	this.init = function() {
-		$('#menu').menu({
-			position: {
-				my: 'left top',
-				at: 'left bottom'
-			}
-		});
+		var initDialog;
+
+		$('#menu').myMenu();
 		$.getJSON('/types',
 			function(l) {
 				l.forEach(function(item) {
@@ -31,10 +26,10 @@ var main = new (function() {
 				}
 			}
 		});
-		menuStart = $('#mi_start').click(function() {
+		var menuStart = $('#mi_start').click(function() {
 			initDialog.dialog('open');
 		});
-		menuDisconnect = $('#mi_disconnect').click(function() {
+		var menuDisconnect = $('#mi_disconnect').click(function() {
 			control.closeConnection();
 
 			menuDisconnect.addClass('ui-state-disabled');

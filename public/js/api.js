@@ -101,9 +101,11 @@ var api = new (function() {
 			} else if (cls === 'result') {
 				uitools.showMessage(msgJson.win ? 'You win!' : 'You Lose');
 			} else if (cls === 'error') {
-				uitools.showMessage(msgJson['message']);
+				control.errorCallback(msgJson['message']);
 			} else if (cls === 'show'){
 				control.showCallback(msgJson);
+			} else if (cls === 'retired') {
+				uitools.showMessage(msgJson['message']);
 			} else {
 				api.show();
 				console.log(msgJson);
