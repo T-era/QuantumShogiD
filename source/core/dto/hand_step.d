@@ -19,14 +19,6 @@ struct RefaceCallbackResp {
 	bool answer;
 }
 
-HandStepResp handStep(Tid from, ServerInterface server, HandStepReq req) {
-	return HandStepResp(server.aHandStep(
-		req.side,
-		req.from.toPos(),
-		req.to.toPos(),
-		() => listenReface(from, server)));
-}
-
 bool listenReface(Tid from, ServerInterface server) {
 	send(from, RefaceCallback());
 

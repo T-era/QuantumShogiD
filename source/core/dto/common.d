@@ -2,6 +2,9 @@ module core.dto.common;
 
 import qs.server;
 
+struct ShuttingDown {}
+struct Finished {}
+
 struct Position {
 	int x;
 	int y;

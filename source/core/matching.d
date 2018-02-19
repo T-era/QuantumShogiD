@@ -34,7 +34,7 @@ class Matcher {
 	}
 	void stopAll() {
 		foreach (Tid tid; byType) {
-			send(tid, false);
+			send(tid, ShuttingDown());
 		}
 	}
 }
@@ -43,8 +43,9 @@ struct EntryItem {
 	string name;
 }
 void run(string type) {
+	logInfo("Mathing thread started");
 	EntryItem[string] waiting;
-	Tid[] gServerList;
+	bool[Tid] gServerList;
 	for (bool running = true; running;) {
 		receive(
 			(Tid tid, string name, string uid) {
@@ -58,8 +59,8 @@ void run(string type) {
 					waiting.remove(uid1);
 					waiting.remove(uid2);
 					string gid = randomUUID().toString;
-					Tid gsTid = spawn(&gServer, type, item1.tid, item2.tid);
-					gServerList ~= gsTid;
+					Tid gsTid = spawn(&gServer, type, item1.tid, item2.tid, thisTid());
+					gServerList[gsTid] = true;
 
 					send(item1.tid, gsTid, Pair(gid, true, item1.name, item2.name), item2.tid);
 					send(item2.tid, gsTid, Pair(gid, false, item1.name, item2.name), item1.tid);
@@ -69,13 +70,17 @@ void run(string type) {
 				// retire
 				waiting.remove(uid);
 			},
-			(bool r) {
-				running = r;
-				foreach (tid; gServerList) {
-					send(tid, false);
-				}
+			(ShuttingDown _) {
+				running = false;
+			},
+			(Finished _, Tid gsTid) {
+				gServerList.remove(gsTid);
 			}
 		);
-		logInfo("Mathing thread finished normally");
 	}
+	foreach (tid; gServerList.keys()) {
+		logInfo("Server stopping...", tid);
+		send(tid, ShuttingDown());
+	}
+	logInfo("Mathing thread finished normally");
 }

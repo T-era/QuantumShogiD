@@ -40,9 +40,16 @@ qs.timer.Timer timerByType(string type) {
 	return newTimer(gt.minTime, gt.loadTime);
 }
 
-void gServer(string type, Tid tid1, Tid tid2) {
+void gServer(string type, Tid tid1, Tid tid2, Tid owner) {
+	logInfo("Server thread started.", tid1, tid2, type);
+
 	auto timer = timerByType(type);
 	ServerInterface server = new Server(timer);
+	bool running = true;
+	void finished() {
+		running = false;
+		send(owner, Finished(), thisTid());
+	}
 	server.setCallbacks(
 		(bool side) {
 			Tid to = side ? tid1 : tid2;
@@ -51,22 +58,40 @@ void gServer(string type, Tid tid1, Tid tid2) {
 		(bool sideWin) {
 			send(tid1, GOver(sideWin));
 			send(tid2, GOver(! sideWin));
+			running = false;
 		});
 
 	server.start();
 
-	for (bool running = true; running; ) {
+	for (; running; ) {
 		receive(
-			(Tid from, GRetire _) {
+			(ShuttingDown _) {
+				running = false;
+			},
+			(Tid from, GRetire r) {
 				running = false;
 				foreach (tid; [tid1, tid2]) {
 					if (tid != from) {
 						send(tid, GRetire());
 					}
 				}
+				send(owner, r);
+			},
+			(Tid from, HandStepReq req) {
+				try {
+					bool finished = server.aHandStep(
+						req.side,
+						req.from.toPos(),
+						req.to.toPos(),
+						() => listenReface(from, server));
+					running = ! finished;
+					send(from, HandStepResp(finished));
+				} catch (Exception ex) {
+					logError("Error", ex);
+					send(from, ErrorResp(ex.msg));
+				}
 			},
 			asFunc!(ShowResp, ShowReq)(server, &show),
-			asFunc!(HandStepResp, HandStepReq)(server, &handStep),
 			asFunc!(HandPutResp, HandPutReq)(server, &handPut),
 			asFunc!(Remains, RemainsReq)(server, &timeRemains));
 	}

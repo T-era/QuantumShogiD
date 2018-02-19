@@ -19,10 +19,6 @@ WaitingResp waiting(scope WebSocket socket, Matcher waitingSrv, string type, str
 	Tid gsTid;
 	receiveTimeout(0.msecs,
 		(Tid tid, Pair p, Tid tid2) {
-			if (p.sente) {
-				Tid gsTid = spawn(&gServer, type, tid, tid2);
-				// TODO??
-			}
 			socket.send(Json([
 				"gid": Json(p.gid),
 				"side": Json(p.sente),
