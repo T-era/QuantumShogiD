@@ -6,14 +6,17 @@ import vibe.vibe;
 import std.algorithm;
 import std.array;
 
-public import core.receiver.show;
-public import core.receiver.hand_step;
-public import core.receiver.hand_put;
-public import core.receiver.time_remains;
+public import core.dto.show;
+public import core.dto.hand_step;
+public import core.dto.hand_put;
+public import core.dto.time_remains;
 import qs.server;
 
 
 struct Turn {}
+struct ErrorResp {
+	string message;
+}
 struct GRetire{}
 struct GOver {
 	bool win;
@@ -22,6 +25,7 @@ struct GType {
 	int minTime;
 	int loadTime;
 }
+
 GType[string] types;
 
 static this() {
@@ -45,21 +49,15 @@ void gServer(string type, Tid tid1, Tid tid2) {
 			send(to, Turn());
 		},
 		(bool sideWin) {
-			Tid win = sideWin ? tid1 : tid2;
-			Tid lose = sideWin ? tid2 : tid1;
 			send(tid1, GOver(sideWin));
 			send(tid2, GOver(! sideWin));
 		});
 
 	server.start();
 
-	void delegate(Tid, ShowReq) showF = asFunc!(ShowResp, ShowReq)(server, &show);
-	void delegate(Tid, HandStepReq) handStepF = asFunc!(HandStepResp, HandStepReq)(server, &handStep);
-	void delegate(Tid, HandPutReq) handPutF = asFunc!(HandPutResp, HandPutReq)(server, &handPut);
-	void delegate(Tid, RemainsReq) remainsF = asFunc!(Remains, RemainsReq)(server, &timeRemains);
 	for (bool running = true; running; ) {
 		receive(
-			(GRetire _, Tid from) {
+			(Tid from, GRetire _) {
 				running = false;
 				foreach (tid; [tid1, tid2]) {
 					if (tid != from) {
@@ -67,15 +65,16 @@ void gServer(string type, Tid tid1, Tid tid2) {
 					}
 				}
 			},
-			showF,
-			handStepF,
-			handPutF,
-			remainsF);
+			asFunc!(ShowResp, ShowReq)(server, &show),
+			asFunc!(HandStepResp, HandStepReq)(server, &handStep),
+			asFunc!(HandPutResp, HandPutReq)(server, &handPut),
+			asFunc!(Remains, RemainsReq)(server, &timeRemains));
 	}
+	logInfo("Server thread finished normally.");
 }
-struct ErrorResp {
-	string message;
-}
+
+// 関数のIN/OUTを、スレッド間の応答に置き換えます。
+// 関数の戻り値は、コール元のスレッドに送り返します。
 void delegate(Tid, T) asFunc(R, T)(ServerInterface server, R function(Tid, ServerInterface, T) f) {
 	return (Tid from, T args) {
 		try {

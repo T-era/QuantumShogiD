@@ -111,7 +111,7 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
 
 auto gamingDisconnected(Tid gTid) {
 	return () {
-		send(gTid, GRetire(), thisTid);
+		send(gTid, thisTid, GRetire());
 		return GResp(LoopStatus.Failed);
 	};
 }

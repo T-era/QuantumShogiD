@@ -1,9 +1,9 @@
-module core.receiver.hand_put;
+module core.dto.hand_put;
 
 import std.concurrency;
 import std.format;
 
-public import core.receiver.common;
+public import core.dto.common;
 import core.gs;
 import qs.server;
 

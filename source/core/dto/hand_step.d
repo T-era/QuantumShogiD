@@ -1,8 +1,8 @@
-module core.receiver.hand_step;
+module core.dto.hand_step;
 
 import std.concurrency;
 
-public import core.receiver.common;
+public import core.dto.common;
 import core.gs;
 import qs.server;
 

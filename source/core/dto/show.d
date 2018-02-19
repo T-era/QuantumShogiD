@@ -1,4 +1,4 @@
-module core.receiver.show;
+module core.dto.show;
 
 import std.concurrency;
 

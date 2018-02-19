@@ -1,4 +1,4 @@
-module core.receiver.time_remains;
+module core.dto.time_remains;
 
 import std.concurrency;
 

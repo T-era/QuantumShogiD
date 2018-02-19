@@ -3,6 +3,7 @@ module core.matching;
 
 import std.concurrency;
 import std.uuid;
+import vibe.vibe : logInfo;
 
 import core.gs;
 
@@ -75,5 +76,6 @@ void run(string type) {
 				}
 			}
 		);
+		logInfo("Mathing thread finished normally");
 	}
 }

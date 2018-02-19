@@ -155,7 +155,6 @@ class Server : ServerInterface {
 			toInHand.face = 0;
 			toInHand.possibility = toInHand.possibility.remove!((p) => p == PieceType.ou);
 
-			// TODO decide again
 			toInHand.listener(toInHand, [PieceType.ou]);
 
 			(side ? this.inHandT : this.inHandF) ~= toInHand;

@@ -1,4 +1,4 @@
-module core.receiver.common;
+module core.dto.common;
 
 import qs.server;
 

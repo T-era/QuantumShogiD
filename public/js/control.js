@@ -22,7 +22,7 @@ var control = new (function() {
 			setting.notify('Your turn');
 		}
 		board.show(side, json['board'], json['tInHand'], json['fInHand']);
-		// TODO json['timer']
+		timer.callback(json['timer']);
 	};
 	this.errorCallback = function(errorMessage) {
 		setting.error(errorMessage);
@@ -78,7 +78,7 @@ var control = new (function() {
 	}
 
 	this.closeConnection = function() {
-		timer.stop();  // TODO ここだけ？
+		timer.stop();
 		api.closeConnection();
 	};
 })();
