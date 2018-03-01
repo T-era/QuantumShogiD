@@ -18,7 +18,7 @@ struct GResp {
 	LoopStatus status;
 }
 
-GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
+GResp gaming(scope WebSocket socket, Tid gTid, string uid, bool side) {
 	bool finished = false;
 
 	receiveTimeout(0.msecs,
@@ -89,7 +89,7 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
 				break;
 			case "step":
 				logInfo(format("Step request %s", request));
-				send(gTid, thisTid, toHandStepReq(request));
+				send(gTid, thisTid, toHandStepReq(side, request));
 				break;
 			case "reface":
 				logInfo(format("Reface response %s", request));
@@ -97,7 +97,7 @@ GResp gaming(scope WebSocket socket, Tid gTid, string uid) {
 				break;
 			case "put":
 				logInfo(format("Put request %s", request));
-				send(gTid, thisTid, toHandPutReq(request));
+				send(gTid, thisTid, toHandPutReq(side, request));
 				break;
 			case "time":
 				send(gTid, thisTid, RemainsReq());

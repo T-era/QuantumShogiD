@@ -48,7 +48,7 @@ auto qssListener(Matcher waitingSrv) {
 		if (wr.status == LoopStatus.Failed) {
 			return;
 		}
-		GResp gr = onWsGoing!(GResp, Tid, string)
-				(&gaming, gamingDisconnected(wr.gsTid), socket, wr.gsTid, uid);
+		GResp gr = onWsGoing!(GResp, Tid, string, bool)
+				(&gaming, gamingDisconnected(wr.gsTid), socket, wr.gsTid, uid, wr.side);
 	};
 }

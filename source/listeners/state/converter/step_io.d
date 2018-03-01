@@ -4,9 +4,9 @@ import vibe.vibe;
 
 import core.gs;
 
-HandStepReq toHandStepReq(Json json) {
+HandStepReq toHandStepReq(bool side, Json json) {
 	return HandStepReq(
-		json["side"].to!bool,
+		side,
 		Position(
 			json["from"]["x"].to!int,
 			json["from"]["y"].to!int),

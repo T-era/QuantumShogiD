@@ -49,7 +49,6 @@ var api = new (function() {
 	this.step = function(thisSide, x1, y1, x2, y2) {
 		socket.send(JSON.stringify({
 			class: 'step',
-			side: thisSide,
 			from: {
 				x: x1,
 				y: y1
@@ -63,7 +62,6 @@ var api = new (function() {
 	this.put = function(thisSide, index, x, y) {
 		socket.send(JSON.stringify({
 			class: 'put',
-			side: thisSide,
 			indexInHand: index,
 			to: {
 				x: x,
@@ -82,7 +80,7 @@ var api = new (function() {
 		console.log("started");
 		socket.onmessage = handleError(function(msgJson) {
 			var cls = msgJson['class'];
-			if (cls === 'you_turn') {
+			if (cls === 'your_turn') {
 				api.show();
 			} else if (cls === 'reface') {
 				var answer = uitools.showConfirm('Reface ?',

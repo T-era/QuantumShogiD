@@ -10,6 +10,7 @@ import listeners.qss;
 struct WaitingResp {
 	LoopStatus status;
 	Tid gsTid;
+	bool side;
 }
 
 WaitingResp waiting(scope WebSocket socket, Matcher waitingSrv, string type, string uid) {
@@ -17,9 +18,11 @@ WaitingResp waiting(scope WebSocket socket, Matcher waitingSrv, string type, str
 
 	// listen paired
 	Tid gsTid;
+	bool side;
 	receiveTimeout(0.msecs,
 		(Tid tid, Pair p, Tid tid2) {
 			socket.send(Json([
+				"class": Json("match"),
 				"gid": Json(p.gid),
 				"side": Json(p.sente),
 				"nameT": Json(p.nameT),
@@ -27,9 +30,10 @@ WaitingResp waiting(scope WebSocket socket, Matcher waitingSrv, string type, str
 			]).to!string);
 			gsTid = tid;
 			received = true;
+			side = p.sente;
 		});
 	if (received) {
-		return WaitingResp(LoopStatus.Success, gsTid);
+		return WaitingResp(LoopStatus.Success, gsTid, side);
 	}
 
 	// listen retire-call

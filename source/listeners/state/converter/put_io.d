@@ -4,9 +4,9 @@ import vibe.vibe;
 
 import core.gs;
 
-HandPutReq toHandPutReq(Json json) {
+HandPutReq toHandPutReq(bool side, Json json) {
 	return HandPutReq(
-		json["side"].to!bool,
+		side,
 		json["indexInHand"].to!int,
 		Position(
 			json["to"]["x"].to!int,
