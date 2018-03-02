@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width='800' height='800' viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg' xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <style>
+line.cs_border {
+stroke: #ddd;
+stroke-dasharray: 5 5;
+}
+rect.client_side {
+stroke: #f4f4f4;
+fill: #f4f4f4;
+}
+text {
+font-family: 'Verdana';
+font-size: 8px;
+text-anchor: middle;
+text-align: center;
+}
+text.title {
+font-size: 12px;
+}
+text.item {
+font-size: 10px;
+}
+.label>rect {
+stroke: #999;
+fill: rgba(0,0,0,0);
+}
+line.life.onservice {
+stroke: #080;
+stroke-width: 3px;
+}
+line.life.active {
+stroke: #888;
+}
+line.life.inactive {
+stroke: #ccc;
+stroke-dasharray: 2 2;
+}
+.arrow {
+fill: #008;
+stroke: #008;
+}
+    </style>
+    <marker id='aryhead' refX='10' refY='4' viewBox='0 0 10 8' markerWidth='10' markerHeight='10' orient='auto'>
+      <path d='M 0 0 L 0 8 L 10 4 Z' class='arrow' />
+    </marker>
+    <g id='arrow1'>
+      <line x1='0' y1='0' x2='100' y2='0' class='arrow' marker-end='url(#aryhead)'/>
+    </g>
+    <g id='arrow2'>
+      <line x1='0' y1='0' x2='200' y2='0' class='arrow' marker-end='url(#aryhead)'/>
+    </g>
+    <g id='arrow3'>
+      <line x1='0' y1='0' x2='300' y2='0' class='arrow' marker-end='url(#aryhead)'/>
+    </g>
+    <g id='arrow4'>
+      <line x1='0' y1='0' x2='400' y2='0' class='arrow' marker-end='url(#aryhead)'/>
+    </g>
+    <g id='label' class='label'>
+      <rect x='-45' y='-10' rx='10' ry='10' width='90' height='20' />
+    </g>
+  </defs>
+
+  <rect class='client_side' x='0' y='0' width='300' height='100%' />
+  <line class='cs_border' x1='300' y1 ='0' x2='300' y2='800' />
+  <g>
+    <text x='150' y='20' class='title'>Web Socket Client</text>
+    <g class='client'>
+      <use xlink:href='#label' transform='translate(100,35)' />
+      <text x='100' y='38' class='item' >Client1</text>
+      <line x1='100' y1='45' x2='100' y2='790' class='life inactive' />
+    </g>
+    <g class='client'>
+      <use xlink:href='#label' transform='translate(200,45)' />
+      <text x='200' y='48' class='item' >Client2</text>
+      <line x1='200' y1='55' x2='200' y2='790' class='life inactive' />
+    </g>
+  </g>
+  <g class='server'>
+    <text class='title item' x='550' y='20'>QSS Server</text>
+    <g class='front'>
+      <use xlink:href='#label' transform='translate(400,35)' />
+      <text x='400' y='38' class='item' >Server1</text>
+      <line x1='400' y1='45' x2='400' y2='790' class='life inactive' />
+    </g>
+    <g class='front'>
+      <use xlink:href='#label' transform='translate(500,45)' />
+      <text x='500' y='48' class='item' >Server2</text>
+      <line x1='500' y1='55' x2='500' y2='790' class='life inactive' />
+    </g>
+    <g class='core'>
+      <use xlink:href='#label' transform='translate(600,35)' />
+      <text x='600' y='38' class='item' >GS Thread</text>
+    </g>
+    <g class='core'>
+      <use xlink:href='#label' transform='translate(700,45)' />
+      <text x='700' y='48' class='item' >Matching Thread</text>
+      <line x1='700' y1='55' x2='700' y2='790' class='life active' />
+    </g>
+  </g>
+  <g class='events'>
+    <g>
+      <use xlink:href='#arrow3' transform='translate(100,70)' />
+      <text x='300' y='68' >(Connect)</text>
+      <line x1='100' y1='70' x2='100' y2='630' class='life active' />
+      <line x1='400' y1='70' x2='400' y2='630' class='life active' />
+    </g>
+    <g>
+      <use xlink:href='#arrow3' transform='translate(100,90)' />
+      <text x='300' y='88' >Entry</text>
+      <use xlink:href='#arrow3' transform='translate(400,100)' />
+      <text x='420' y='98' >Entry</text>
+      <line x1='400' y1='90' x2='400' y2='100' class='life onservice' />
+    </g>
+    <g>
+      <use xlink:href='#arrow3' transform='translate(200,120)' />
+      <text x='300' y='118' >(Connect)</text>
+      <line x1='200' y1='120' x2='200' y2='590' class='life active' />
+      <line x1='500' y1='120' x2='500' y2='590' class='life active' />
+      <line x1='700' y1='100' x2='700' y2='150' class='life onservice' stroke-dasharray='5 5' />
+    </g>
+    <g>
+      <use xlink:href='#arrow3' transform='translate(200,140)' />
+      <text x='300' y='138' >Entry</text>
+      <use xlink:href='#arrow2' transform='translate(500,150)' />
+      <text x='520' y='148' >Entry</text>
+      <line x1='500' y1='140' x2='500' y2='150' class='life onservice' />
+    </g>
+    <g>
+      <use xlink:href='#arrow2' transform='translate(700,170) scale(-1,1)' />
+      <text x='680' y='168' >Match</text>
+      <use xlink:href='#arrow3' transform='translate(500,180) scale(-1,1)' />
+      <text x='300' y='178' >Match</text>
+      <line x1='500' y1='170' x2='500' y2='180' class='life onservice' />
+      <use xlink:href='#arrow3' transform='translate(700,185) scale(-1,1)' />
+      <text x='680' y='183' >Match</text>
+      <use xlink:href='#arrow3' transform='translate(400,195) scale(-1,1)' />
+      <text x='300' y='193' >Match</text>
+      <line x1='400' y1='185' x2='400' y2='195' class='life onservice' />
+      <use xlink:href='#arrow1' transform='translate(700,200) scale(-1,1)' />
+      <text x='680' y='198' >(spawn)</text>
+      <line x1='600' y1='200' x2='600' y2='600' class='life active' />
+      <line x1='600' y1='200' x2='600' y2='220' class='life onservice' />
+      <line x1='700' y1='150' x2='700' y2='200' class='life onservice' />
+    </g>
+    <g>
+      <line x1='600' y1='200' x2='600' y2='200' class='life onservice' />
+      <use xlink:href='#arrow1' transform='translate(600,220) scale(-1,1)' />
+      <text x='575' y='218' >your turn</text>
+      <use xlink:href='#arrow3' transform='translate(500,230) scale(-1,1)' />
+      <text x='300' y='228' >your turn</text>
+      <line x1='500' y1='220' x2='500' y2='230' class='life onservice' />
+    </g>
+    <g>
+      <use xlink:href='#arrow3' transform='translate(100,250)' />
+      <text x='300' y='248' >show / time</text>
+      <use xlink:href='#arrow2' transform='translate(400,260)' />
+      <text x='430' y='258' >show / time</text>
+      <use xlink:href='#arrow2' transform='translate(600,270) scale(-1,1)' />
+      <use xlink:href='#arrow3' transform='translate(400,280) scale(-1,1)' />
+      <line x1='600' y1='260' x2='600' y2='270' class='life onservice' />
+      <line x1='400' y1='250' x2='400' y2='280' class='life onservice' />
+    </g>
+    <g>
+      <use xlink:href='#arrow3' transform='translate(200,300)' />
+      <text x='300' y='298' >show / time</text>
+      <use xlink:href='#arrow1' transform='translate(500,310)' />
+      <text x='530' y='308' >show / time</text>
+      <use xlink:href='#arrow1' transform='translate(600,320) scale(-1,1)' />
+      <use xlink:href='#arrow3' transform='translate(500,330) scale(-1,1)' />
+      <line x1='600' y1='310' x2='600' y2='320' class='life onservice' />
+      <line x1='500' y1='300' x2='500' y2='330' class='life onservice' />
+    </g>
+    <g>
+      <use xlink:href='#arrow3' transform='translate(200,360)' />
+      <text x='300' y='358' >put / step</text>
+      <use xlink:href='#arrow1' transform='translate(500,370)' />
+      <use xlink:href='#arrow1' transform='translate(600,380) scale(-1,1)' />
+      <use xlink:href='#arrow3' transform='translate(500,390) scale(-1,1)' />
+      <line x1='500' y1='360' x2='500' y2='390' class='life onservice' />
+
+      <use xlink:href='#arrow2' transform='translate(600,400) scale(-1,1)' />
+      <text x='575' y='398' >your turn</text>
+      <use xlink:href='#arrow3' transform='translate(400,410) scale(-1,1)' />
+      <text x='300' y='408' >your turn</text>
+      <line x1='600' y1='370' x2='600' y2='400' class='life onservice' />
+      <line x1='400' y1='400' x2='400' y2='410' class='life onservice' />
+    </g>
+    <g>
+      <use xlink:href='#arrow3' transform='translate(100,440)' />
+      <text x='300' y='438' >put / step</text>
+      <use xlink:href='#arrow2' transform='translate(400,450)' />
+      <use xlink:href='#arrow2' transform='translate(600,460) scale(-1,1)' />
+      <use xlink:href='#arrow3' transform='translate(400,470) scale(-1,1)' />
+      <line x1='400' y1='440' x2='400' y2='470' class='life onservice' />
+
+      <use xlink:href='#arrow1' transform='translate(600,480) scale(-1,1)' />
+      <text x='575' y='478' >your turn</text>
+      <use xlink:href='#arrow3' transform='translate(500,490) scale(-1,1)' />
+      <text x='300' y='488' >your turn</text>
+      <line x1='600' y1='450' x2='600' y2='480' class='life onservice' />
+      <line x1='500' y1='480' x2='500' y2='490' class='life onservice' />
+    </g>
+  </g>
+  <line x1='300' x2='300' y1='505' y2='520' stroke-width='3' stroke-dasharray='3 3' stroke='black'/>
+  <g class='events'>
+    <use xlink:href='#arrow3' transform='translate(200,540)' />
+    <text x='300' y='538' >step</text>
+    <use xlink:href='#arrow1' transform='translate(500,550)' />
+    <use xlink:href='#arrow1' transform='translate(600,560) scale(-1,1)' />
+    <use xlink:href='#arrow3' transform='translate(500,570) scale(-1,1)' />
+    <use xlink:href='#arrow3' transform='translate(500,590) scale(-1,1)' />
+    <text x='300' y='588' >(Disconnect)</text>
+    <line x1='500' y1='540' x2='500' y2='590' class='life onservice' />
+  </g>
+  <g>
+    <use xlink:href='#arrow2' transform='translate(600,600) scale(-1,1)' />
+    <text x='580' y='598' >result</text>
+    <use xlink:href='#arrow3' transform='translate(400,610) scale(-1,1)' />
+    <text x='300' y='608' >result</text>
+    <use xlink:href='#arrow3' transform='translate(400,630) scale(-1,1)' />
+    <text x='300' y='628' >(Disconnect)</text>
+    <line x1='400' y1='600' x2='400' y2='630' class='life onservice' />
+    <line x1='600' y1='550' x2='600' y2='600' class='life onservice' />
+  </g>
+</svg>
