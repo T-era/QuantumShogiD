@@ -6,7 +6,7 @@
   }
 
   function myMenu() {
-    console.log(this);
-    this.hide();
+    this.addClass('mymenu');
+    this.menu();
   }
 })();
