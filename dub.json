@@ -4,7 +4,7 @@
 		"y-terada"
 	],
 	"dependencies": {
-		"vibe-d": "~>0.7.30"
+		"vibe-d": "~>0.8.4"
 	},
 	"sourcePaths": ["./source"],
 	"description": "Quantum-shogi server on vibe.d server.",

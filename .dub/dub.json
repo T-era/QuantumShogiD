@@ -1,13 +1,20 @@
 {
 	"dub": {
-		"lastUpgrade": "2018-02-09T23:19:24.535203",
+		"lastUpgrade": "2018-08-07T22:09:59.353163",
 		"cachedUpgrades": {
-			"memutils": "0.4.9",
 			"libevent": "2.0.2+2.0.16",
-			"vibe-d": "0.7.32",
+			"diet-ng": "1.5.0",
+			"taggedalgebraic": "0.10.11",
 			"openssl": "1.1.6+1.0.1g",
-			"diet-ng": "1.4.4",
-			"libasync": "0.8.3"
+			"botan": "1.12.10",
+			"memutils": "0.4.11",
+			"vibe-d": "0.8.4",
+			"mir-linux-kernel": "1.0.0",
+			"stdx-allocator": "2.77.2",
+			"vibe-core": "1.4.1",
+			"libasync": "0.8.3",
+			"botan-math": "1.0.3",
+			"eventcore": "0.8.35"
 		}
 	}
 }
