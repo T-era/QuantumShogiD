@@ -73,12 +73,6 @@ html, body {
 	top: 30px;
 	right: 5%;
 }
-#menu_bar{
-	position: absolute;
-	top: 0;
-	right: 5%;
-}
-
 #timer {
 	position: absolute;
 	top: 80%;

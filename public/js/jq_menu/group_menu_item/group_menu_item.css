@@ -1,0 +1,14 @@
+li.ui-widget-header>.ui-menu-item-wrapper:hover {
+	font-weight: inherit;
+	background: inherit;
+	cursor: auto;
+}
+li.ui-menu-item>div.ui-icon {
+	display: inline-block;
+	position: relative;
+	padding: 0;
+	margin: 0;
+}
+li.ui-widget-header>div.ui-menu-item-wrapper {
+	display: block;
+}

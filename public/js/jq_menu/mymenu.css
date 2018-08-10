@@ -1,3 +1,9 @@
 .mymenu {
-  font-size: small;
+	font-size: small;
+}
+li.ui-menu-item>.ui-menu-item-wrapper {
+	display: inline-block;
+	padding-left: 0.5em;
+}
+li.group_menu_item>.ui-menu-item-wrapper {
 }
