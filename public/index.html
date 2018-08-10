@@ -6,13 +6,16 @@
 	<link rel='stylesheet' type='text/css' href='js/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css' />
 	<link rel='stylesheet' type='text/css' href='js/jq_menu/mymenu.css' />
 	<link rel='stylesheet' type='text/css' href='js/jq_menu/group_menu_item/group_menu_item.css' />
+	<link rel='stylesheet' type='text/css' href='js/hov_l_title/hover.css' />
 	<link rel='stylesheet' type='text/css' href='css/label.css' />
 	<link rel='stylesheet' type='text/css' href='css/status.css' />
 	<link rel='stylesheet' type='text/css' href='css/board.css' />
+	<link rel='stylesheet' type='text/css' href='css/menu.css' />
 	<script type='text/javascript' src='js/lib/jquery-3.3.1.min.js'></script>
 	<script type='text/javascript' src='js/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js'></script>
 	<script type='text/javascript' src='js/jq_menu/mymenu.js'></script>
 	<script type='text/javascript' src='js/jq_menu/group_menu_item/group_menu_item.js'></script>
+	<script type='text/javascript' src='js/hov_l_title/hover.js'></script>
 	<script type='text/javascript' src='js/main.js'></script>
 	<script type='text/javascript' src='js/status.js'></script>
 	<script type='text/javascript' src='js/api.js'></script>
@@ -62,6 +65,13 @@ $(function() {
 						<li><div id='mi_simpleview'>Simple view</div></li>
 					</ul>
 				</li>
+				<li><div>Interaction</div>
+					<ul>
+						<li class="ui-widget-header"><div>Hint & Pick</div></li>
+						<li id='mi_intr_touch'><div>Tap to hint/DoubleTap to pick</div></li>
+						<li id='mi_intr_mouse'><div>Hover to hint/Click to pick</div></li>
+					</ul>
+				</li>
 				<li><div>Notification Setting</div>
 					<ul>
 						<li class="ui-widget-header"><div>Turn changed</div></li>
@@ -76,11 +86,12 @@ $(function() {
 				</li>
 			</ul>
 		</div>
+		<div id='hover_like_title'></div>
 	</div>
 
 	<!-- dialogs -->
 	<div id='init_dialog'>
-		<label for='input_name'>Name</label><input type='text' id='input_name' />
+		<label for='input_name' class='labelForInput'>Name</label><input type='text' id='input_name' />
 		<select id='select_type'>
 		</select>
 	</div>
@@ -90,5 +101,7 @@ $(function() {
 	<div id='confirm_dialog'>
 		<span id='confirm_output'>test</span>
 	</div>
+	<div class="ui-icon-check ui-icon"></div>
+	<div class="ui-icon-blank ui-icon"></div>
 </body>
 </html>

@@ -1,6 +1,6 @@
-label:after {
+label.labelForInput:after {
 	content: ":";
 }
-label {
+label.labelForInput {
 	margin-right: 10px;
 }

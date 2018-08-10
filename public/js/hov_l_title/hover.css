@@ -1,0 +1,11 @@
+#hover_like_title {
+    font-size: x-small;
+    display: none;
+    position: absolute;
+    width: 3em;
+    height: 1.5em;
+    border: 1px solid #ccc;
+    background: white;
+
+    pointer-events: none;
+}
