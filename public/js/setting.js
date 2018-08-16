@@ -3,7 +3,8 @@ var setting = {
 		var intrPc = $('#mi_intr_mouse');
 		var intrTp = $('#mi_intr_touch');
 		this.interactAsPc = true;
-		gmi(0, intrPc, intrTp)
+		var intrDefault = isMobile() ? 1 : 0;
+		gmi(intrDefault, intrPc, intrTp)
 			.setCallback(function(selected) {
 				this.interactAsPc = (selected == intrPc);
 			}.bind(this));
@@ -94,6 +95,13 @@ var setting = {
 				}
 			}
 			return that;
+		}
+		function isMobile() {
+			var ua = navigator.userAgent;
+			return ua
+				&& (ua.indexOf('iPhone') > 0
+				|| ua.indexOf('iPad') > 0
+				|| ua.indexOf('Android') > 0);
 		}
 	}
 };
