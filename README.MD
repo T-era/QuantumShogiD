@@ -1,5 +1,4 @@
 # QuantumShogiD
-====
 
 量子将棋サーバ on Vibe.d
 
@@ -21,3 +20,9 @@
 
 # イベント
   [イベントフロー図(SVG)](/doc/event_matrix.svg)
+
+# 実行環境
+
+　GCP無料環境で試験運用中:
+- View http://35.233.226.68/index.html
+- API http://35.233.226.68/qss
