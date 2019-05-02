@@ -1,0 +1,9 @@
+[Unit]
+Description=QuantumShogiD
+
+[Service]
+Type=simple
+ExecStart=/var/service/qss/qss_start.sh
+ExecStop=/bin/kill -HUP $MAINPID
+#StandardOutput=file:/var/log/qss/qss.log
+#StandardError=file:/var/log/qss/qss.err

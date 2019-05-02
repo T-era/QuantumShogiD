@@ -3,6 +3,8 @@
 量子将棋サーバ on Vibe.d
 
 - ビルド: dub
+  - make 経由で、ビルド/実行できます。
+  - (CentOS7環境のみ)`make install`でsystemdにサービス登録します
 - WebSocket クライアントに対して、JSON APIを提供します。
   - クライアントサイドの参照実装として、index.html があります。
 
