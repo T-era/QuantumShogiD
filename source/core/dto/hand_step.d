@@ -33,7 +33,8 @@ bool listenReface(Tid from, ServerInterface server) {
 				send(from, server.getRemains());
 			},
 			(Variant v) {
-				send(from, ErrorResp("Listening REFACE!"));
+				import std.string :format;
+				send(from, ErrorResp(format("Listening REFACE! %s", v)));
 			});
 	}
 	return result;

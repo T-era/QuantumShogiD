@@ -1,6 +1,7 @@
 PROGRAM = qss
 
 $(PROGRAM):
+	git rev-parse HEAD > public/version.txt
 	dub build
 
 run: $(PROGRAM)
